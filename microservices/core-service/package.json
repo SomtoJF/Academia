@@ -1,5 +1,5 @@
 {
-	"name": "GQL-Express-Config --change me--",
+	"name": "core-microservice",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
