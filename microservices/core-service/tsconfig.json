@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"rootDirs": ["microservices/core-service/src"],
+		"rootDirs": ["src"],
 		"outDir": "dist",
 		"lib": ["es2020"],
 		"target": "es2020",
@@ -9,9 +9,6 @@
 		"esModuleInterop": true,
 		"types": ["node"]
 	},
-	"include": [
-		"microservices/core-service/src/**/*.tsx",
-		"microservices/core-service/src/**/*.ts"
-	],
+	"include": ["./src/**/*.tsx", "./src/**/*.ts"],
 	"exclude": ["node_modules", "test/**/*.ts"]
 }
