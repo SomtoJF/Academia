@@ -6,7 +6,9 @@ export default function Hero() {
 	return (
 		<section id="hero">
 			<div id="welcome-message">
-				<h1>Navigating the digital landscape for success</h1>
+				<h1>
+					Bridging the gap between traditional and online examination processes
+				</h1>
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste vel
 					doloribus optio fugit? Sapiente rem ex, repellendus alias error
