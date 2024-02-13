@@ -12,7 +12,7 @@ export default function Hero() {
 				The aim of online examination processes has always been to make
 				examinations faster and more efficient. However, one major issue poses a
 				challenge to the realization of that goal --that is the inability of
-				most platforms to automatically grade open-ended questions. Academia
+				most platforms to autonomously grade open-ended questions. Academia
 				seeks to solve this problem...
 			</p>
 			<button>
