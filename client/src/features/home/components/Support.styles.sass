@@ -3,17 +3,16 @@
 #why
     height: fit-content
     margin-top: 0px
-    font-family: App.$roboto
+    font-family: App.$poppins
     h2
         color: App.$text-color
         width: fit-content
         font-size: 2rem
     &>div
         display: grid
-        grid-template-columns: repeat(4, 19vw)
-        grid-template-rows: 19vw
-        overflow: auto
-        gap: 50px
+        grid-template-columns: repeat(4, max(250px, 20vw))
+        grid-template-rows: 250px
+        gap: 10px
         overflow: hidden
         padding: 10px
         box-sizing: border-box
@@ -50,3 +49,7 @@
                 background-color: #CB9BFA
             &:nth-child(4)
                 background-color: #F8FD91
+
+@media all and (max-width: 1170px)
+    #why>div
+        overflow-x: scroll

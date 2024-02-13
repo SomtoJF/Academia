@@ -7,16 +7,13 @@ export default function Navbar() {
 		<nav id="home-nav">
 			<div className="logo">ACADEMIA</div>
 			<div className="nav-auth-button-container">
-				<button>
-					<Link to={"/login"}>
-						Log In <AiOutlineArrowRight />
-					</Link>
-				</button>
-				<button>
-					<Link to={"/signup"}>
-						Sign Up <AiOutlineArrowRight />
-					</Link>
-				</button>
+				<Link to={"/login"}>
+					Log In <AiOutlineArrowRight />
+				</Link>
+
+				<Link to={"/signup"}>
+					Sign Up <AiOutlineArrowRight />
+				</Link>
 			</div>
 		</nav>
 	);

@@ -1,29 +1,32 @@
 @use "../../../App"
 
 #hero
-    font-family: App.$roboto
+    font-family: App.$poppins
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
     gap: 5vh
     padding: 10vh 10%
+    padding-bottom: 0px
     font-size: 1.2rem
     box-sizing: border-box
     &>*
         text-align: center
         margin: 0px
     h1
-        font-size: 4rem
+        font-size: clamp(2rem,6vw, 64px)
+        font-weight: 600
 
     &>button
         border: none
         background-color: transparent
+        font-family: App.$outfit
         a
             padding: 15px 30px
             color: App.$background-color
             background-color: App.$text-color
-            border-radius: 20px
+            border-radius: 25px
             text-decoration: none
             display: flex
             justify-content: center
@@ -35,3 +38,10 @@
         &:hover
             svg
                 transform: rotate(0deg)
+
+@media all and (max-width: 650px)
+    #hero
+        padding: 10vh 0px
+        align-items: flex-start
+        >*
+            text-align: left
