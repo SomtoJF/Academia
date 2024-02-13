@@ -2,89 +2,51 @@
 
 #why
     height: fit-content
-    margin-top: 5%
+    margin-top: 0px
+    font-family: App.$roboto
     h2
-        font-family: App.$block-font
-        background-color: App.$lime
         color: App.$text-color
         width: fit-content
         font-size: 2rem
     &>div
         display: grid
-        grid-template-columns: 1fr 1fr
-        grid-template-rows: repeat(2, 250px)
-        grid-auto-rows: 250px
+        grid-template-columns: repeat(4, 19vw)
+        grid-template-rows: 19vw
+        overflow: auto
         gap: 50px
-        height: 72vh
         overflow: hidden
         padding: 10px
         box-sizing: border-box
         article
             width: 100%
             height: 100%
-            @include App.neo-button()
-            border: solid 2px App.$text-color
-            border-radius: 25px
+            border-radius: 20px
+            padding: 10%
             box-sizing: border-box
-            row-gap: 10px
-            padding: 5%
-            display: grid
-            grid-template-columns: 1fr 1fr
-            grid-template-rows: fit-content 1fr
-            &:active
-                -webkit-box-shadow: 7px 5px 0px 0px App.$green
+            display: flex
+            flex-direction: column
+            font-family: App.$outfit
+            gap: 5%
+            h4
+                margin: 0px
+                font-size: 1.2rem
+                font-weight: 500
+            small
+                font-size: 0.8rem
+                color: App.$black
+                opacity: 0.5
             p
                 margin: 0px
-            p:first-child
-                grid-column: 1 / 2
-                grid-row: 1 / 2
-                font-family: App.$block-font
-                font-weight: 700
-                font-size: 1.5rem
-                background-color: App.$lime
-                width: fit-content
-                height: fit-content
-            &:nth-child(2), &:nth-child(3)
-                background-color: App.$text-color
-                p:first-child
-                    background-color: App.$background-color
-                p:not(:first-child)
-                    color: App.$background-color
-                    font-weight: 300
-            figure
-                grid-row: 1 / 3
-                width: 100%
-                height: 100%
-                overflow: hidden
-                padding: 0px
-                margin: 0px
-                display: flex
-                justify-content: flex-end
-            img
-                width: 100%
-                height: 100%
-
-@media all and (max-width: 1060px)
-    #why
-        &>div>article
-            grid-template-columns: 1fr
-            figure
-                display: none
-
-@media all and (max-width: 660px)
-    #why
-        &>div
-            grid-template-columns: 1fr
-            height: fit-content
-            article
-                grid-template-columns: 1fr 1fr
-                grid-template-rows: 65px 1fr
-                figure
-                    display: flex
-
-@media all and (max-width: 540px)
-    #why
-        &>div>article
-            grid-template-columns: 1fr
-            figure
-                display: none
+                font-weight: 350
+                font-size: 0.8rem
+            &:first-child
+                background-color: #5DCCA0
+            &:nth-child(2)
+                background-color: App.$black
+                color: App.$white
+                small
+                    color: App.$white
+            &:nth-child(3)
+                background-color: #CB9BFA
+            &:nth-child(4)
+                background-color: #F8FD91

@@ -1,69 +1,37 @@
 @use "../../../App"
 
 #hero
-    margin-top: 20px
-    display: grid
-    grid-template-columns: 1fr 1.2fr
-    column-gap: 40px
-    grid-template-rows: 1fr
-    min-height: 80vh
-    background-color: inherit
-    position: relative
-    z-index: 1
-    border-bottom: solid 1px App.$text-color
-    padding: 20px 0px
-    &>div
-        width: 100%
-        height: 100%
-    #welcome-message
-        display: flex
-        flex-direction: column
-        gap: 5%
-    h1
-        font-family: App.$block-font
-        font-size: 3.2rem
+    font-family: App.$roboto
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    gap: 5vh
+    padding: 10vh 10%
+    font-size: 1.2rem
+    box-sizing: border-box
+    &>*
+        text-align: center
         margin: 0px
-    #auth-button-container
-        display: flex
-        gap: 20px
-        button
-            color: App.$text-color
-            background-color: App.$background-color
-            @include App.neo-button()
-            height: 50px
-            width: 100px
-            padding: 0px
-            &:nth-child(2)
-                background-color: #B8FF73
-            a
-                text-decoration: none
-                color: inherit
-                width: 100%
-                height: 100%
-                display: inline-block
-                line-height: 46px
+    h1
+        font-size: 4rem
 
-    #hero-image
-        display: flex
-        justify-content: center
-        align-items: center
-
-@media all and (max-width: 1279px)
-    #hero
-        grid-template-columns: 1fr 0.5fr
-        #hero-image
-            display: none
-
-@media all and (max-width: 1000px)
-    #hero
-        grid-template-columns: 1fr 0.2fr
-
-@media all and (max-width: 820px)
-    #hero
-        grid-template-columns: 1fr
-
-@media all and (max-width: 640px)
-    #hero
-        // grid-template-columns: 1fr 0.5fr
-        h1
-            font-size: 8vw
+    &>button
+        border: none
+        background-color: transparent
+        a
+            padding: 15px 30px
+            color: App.$background-color
+            background-color: App.$text-color
+            border-radius: 20px
+            text-decoration: none
+            display: flex
+            justify-content: center
+            align-items: center
+            svg
+                margin-left: 5px
+                transform: rotate(45deg)
+                transition: 250ms
+        &:hover
+            svg
+                transform: rotate(0deg)
