@@ -108,7 +108,7 @@ export default function Signup() {
 					{loading ? <LoadingOutlined /> : "Log In"}
 				</button>
 				<p>
-					Already have an account? <Link to={"/login"}> Log In</Link>
+					Already have an account? <Link to={"/login"}> Sign Up</Link>
 				</p>
 			</form>
 		</div>
