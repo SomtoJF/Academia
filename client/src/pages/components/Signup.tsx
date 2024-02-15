@@ -105,10 +105,10 @@ export default function Signup() {
 				</label>
 
 				<button type="submit" disabled={loading}>
-					{loading ? <LoadingOutlined /> : "Log In"}
+					{loading ? <LoadingOutlined /> : " Sign Up"}
 				</button>
 				<p>
-					Already have an account? <Link to={"/login"}> Sign Up</Link>
+					Already have an account? <Link to={"/login"}> Log In</Link>
 				</p>
 			</form>
 		</div>
