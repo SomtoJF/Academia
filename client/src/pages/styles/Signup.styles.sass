@@ -1,0 +1,52 @@
+
+@use "../../App"
+
+#signup
+    box-sizing: border-box
+    width: 100%
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    form
+        box-sizing: border-box
+        border-radius: 20px
+        padding: 20px
+        display: flex
+        flex-direction: column
+        gap: 30px
+        width: max(35vw, 350px)
+        font-size: 0.8rem
+        #welcome-p
+            font-weight: 700
+            opacity: 0.5
+        h1
+            font-size: 3rem
+            margin: 0px
+            font-family: App.$poppins
+        &>p
+            margin: 0px
+        &>label
+            font-size: 1rem
+            border-bottom: solid 1px App.$black
+            padding-bottom: 5px
+            &>*
+                display: block
+        #role-label
+            border-bottom: none
+        input
+            margin-top: 10px
+            font-family: App.$outfit
+            padding: 0px
+            font-weight: 600
+            outline: none
+            border: none
+            background-color: inherit
+    button[type="submit"]
+        background-color: App.$green
+        border: none
+        padding: 10px 15px
+        font-family: App.$poppins
+        border-radius: 5px
+        font-weight: 600
