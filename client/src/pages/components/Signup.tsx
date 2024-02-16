@@ -1,25 +1,56 @@
 import { FormEvent, useState } from "react";
 import "../styles/Signup.styles.sass";
-import { Link } from "react-router-dom";
-import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import type { RadioChangeEvent } from "antd";
-import { Radio } from "antd";
-import { Tooltip } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import {
+	LoadingOutlined,
+	QuestionCircleOutlined,
+	EyeOutlined,
+	EyeInvisibleOutlined,
+} from "@ant-design/icons";
+import { Tooltip, message, RadioChangeEvent, Radio } from "antd";
+import signup from "../../services/signup";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [firstname, setFirstname] = useState("");
-	const [lastname, setLastname] = useState("");
+	const [firstName, setFirstname] = useState("");
+	const [lastName, setLastname] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [role, setRole] = useState<"student" | "examiner">("student");
+	const [messageApi, contextHolder] = message.useMessage();
+	const navigate = useNavigate();
+	const [isPasswordType, setIsPasswordType] = useState(true);
 
-	const handleSubmit = (e: FormEvent) => {
+	const success = (message: string) => {
+		messageApi.open({
+			type: "success",
+			content: message,
+		});
+	};
+
+	const error = (message: string) => {
+		messageApi.open({
+			type: "error",
+			content: message,
+		});
+	};
+
+	const handlePasswordTypeChange = () => {
+		setIsPasswordType(!isPasswordType);
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
 			setLoading(true);
-		} catch (error) {
-			throw error;
+			await signup({ email, password, firstName, lastName, role });
+			success("Account created successfully");
+			setTimeout(() => {
+				navigate("/login");
+			}, 1000);
+		} catch (err: any) {
+			error(`${err.code}: ${err.response.data.message}`);
+			throw err;
 		} finally {
 			setLoading(false);
 		}
@@ -30,87 +61,95 @@ export default function Signup() {
 	};
 
 	return (
-		<div id="signup">
-			<form action="" onSubmit={handleSubmit}>
-				<h1>Create an account.</h1>
-				<p id="welcome-p">
-					Creating an account takes less than a minute --we promise.
-				</p>
-				<label htmlFor="email">
-					Email
-					<input
-						required
-						type="email"
-						name="email"
-						id="email"
-						value={email}
-						placeholder="Enter your email"
-						onChange={(e) => {
-							setEmail(e.target.value);
-						}}
-					/>
-				</label>
-				<label htmlFor="password">
-					Password
-					<input
-						required
-						type="password"
-						name="password"
-						id="password"
-						value={password}
-						placeholder="Enter your password"
-						onChange={(e) => {
-							setPassword(e.target.value);
-						}}
-					/>
-				</label>
-				<label htmlFor="firstname">
-					First Name
-					<input
-						required
-						type="text"
-						name="firstname"
-						id="firstname"
-						value={firstname}
-						placeholder="Enter your first name"
-						onChange={(e) => {
-							setFirstname(e.target.value);
-						}}
-					/>
-				</label>
-				<label htmlFor="firstname">
-					Last Name
-					<input
-						required
-						type="text"
-						name="lastname"
-						id="lastname"
-						value={lastname}
-						placeholder="Enter your last name"
-						onChange={(e) => {
-							setLastname(e.target.value);
-						}}
-					/>
-				</label>
-				<label htmlFor="role" id="role-label">
-					<Tooltip title="Select the Student role if your goal is to use this platform to take examinations. Select Examiner if you're an educator looking to create exams">
-						<span style={{ width: "fit-content" }}>
-							Role <QuestionCircleOutlined />
-						</span>
-					</Tooltip>
-					<Radio.Group onChange={onChangeRole} value={role}>
-						<Radio value={"student"}>Student</Radio>
-						<Radio value={"examiner"}>Examiner</Radio>
-					</Radio.Group>
-				</label>
+		<>
+			{contextHolder}
+			<div id="signup">
+				<form action="" onSubmit={handleSubmit}>
+					<h1>Create an account.</h1>
+					<p id="welcome-p">
+						Creating an account takes less than a minute --we promise.
+					</p>
+					<label htmlFor="email">
+						Email*
+						<input
+							required
+							type="email"
+							name="email"
+							id="email"
+							value={email}
+							placeholder="Enter your email"
+							onChange={(e) => {
+								setEmail(e.target.value);
+							}}
+						/>
+					</label>
+					<label htmlFor="password">
+						Password*
+						<div id="password-input-container">
+							<input
+								required
+								type={isPasswordType ? "password" : "text"}
+								name="password"
+								id="password"
+								value={password}
+								placeholder="Enter your password"
+								onChange={(e) => {
+									setPassword(e.target.value);
+								}}
+							/>
+							<button type="button" onClick={handlePasswordTypeChange}>
+								{isPasswordType ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+							</button>
+						</div>
+					</label>
+					<label htmlFor="firstName">
+						First Name*
+						<input
+							required
+							type="text"
+							name="firstname"
+							id="firstname"
+							value={firstName}
+							placeholder="Enter your first name"
+							onChange={(e) => {
+								setFirstname(e.target.value);
+							}}
+						/>
+					</label>
+					<label htmlFor="firstName">
+						Last Name*
+						<input
+							required
+							type="text"
+							name="lastname"
+							id="lastname"
+							value={lastName}
+							placeholder="Enter your last name"
+							onChange={(e) => {
+								setLastname(e.target.value);
+							}}
+						/>
+					</label>
+					<label htmlFor="role" id="role-label">
+						<Tooltip title="Select the Student role if your goal is to use this platform to take examinations. Select Examiner if you're an educator looking to create exams">
+							<span style={{ width: "fit-content" }}>
+								Role* <QuestionCircleOutlined />
+							</span>
+						</Tooltip>
+						<Radio.Group onChange={onChangeRole} value={role}>
+							<Radio value={"student"}>Student</Radio>
+							<Radio value={"examiner"}>Examiner</Radio>
+						</Radio.Group>
+					</label>
 
-				<button type="submit" disabled={loading}>
-					{loading ? <LoadingOutlined /> : " Sign Up"}
-				</button>
-				<p>
-					Already have an account? <Link to={"/login"}> Log In</Link>
-				</p>
-			</form>
-		</div>
+					<button type="submit" disabled={loading}>
+						{loading ? <LoadingOutlined /> : " Sign Up"}
+					</button>
+					<p>
+						Already have an account? <Link to={"/login"}> Log In</Link>
+					</p>
+				</form>
+			</div>
+		</>
 	);
 }
