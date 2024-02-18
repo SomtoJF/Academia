@@ -8,7 +8,8 @@ import {
 	EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { Tooltip, message, RadioChangeEvent, Radio } from "antd";
-import signup from "../../services/signup";
+import { useAuth } from "../../contexts/AuthContext";
+import createUserInBackend from "../../services/signup";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ export default function Signup() {
 	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
 	const [isPasswordType, setIsPasswordType] = useState(true);
+	const { signup } = useAuth();
 
 	const success = (message: string) => {
 		messageApi.open({
@@ -43,13 +45,16 @@ export default function Signup() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			await signup({ email, password, firstName, lastName, role });
+			await signup(email, password);
+			await createUserInBackend({ email, firstName, lastName, role });
 			success("Account created successfully");
 			setTimeout(() => {
 				navigate("/login");
 			}, 1000);
 		} catch (err: any) {
-			error(`${err.code}: ${err.response.data.message}`);
+			error(
+				err.response?.data?.message ? err.response.data.message : err.message
+			);
 			throw err;
 		} finally {
 			setLoading(false);
