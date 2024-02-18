@@ -5,6 +5,7 @@ import Login from "./pages/components/Login";
 import Signup from "./pages/components/Signup";
 import HomeLayout from "./layouts/HomeLayout";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 const router = createBrowserRouter([
 	{
@@ -19,10 +20,17 @@ const router = createBrowserRouter([
 	{ path: "/signup", element: <Signup /> },
 ]);
 
+const client = new ApolloClient({
+	uri: import.meta.env.VITE_REACT_APP_BACKEND_URL,
+	cache: new InMemoryCache(),
+});
+
 function App() {
 	return (
 		<AuthProvider>
-			<RouterProvider router={router} />
+			<ApolloProvider client={client}>
+				<RouterProvider router={router} />
+			</ApolloProvider>
 		</AuthProvider>
 	);
 }
