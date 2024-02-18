@@ -10,7 +10,7 @@ interface Payload {
 
 export default async function createUserInBackend(payload: Payload) {
 	const response = await axios.post(
-		import.meta.env.VITE_BACKEND_URL + "/auth/signup",
+		import.meta.env.VITE_BACKEND_URL + "/user/create",
 		{
 			...payload,
 		}
