@@ -45,8 +45,9 @@ export default function Signup() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			await signup(email, password);
-			await createUserInBackend({ email, firstName, lastName, role });
+			const response = await signup(email, password);
+			const uuid = response.uid;
+			await createUserInBackend({ email, firstName, lastName, role, id: uuid });
 			success("Account created successfully");
 			setTimeout(() => {
 				navigate("/login");

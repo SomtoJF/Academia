@@ -1,6 +1,7 @@
 import axios from "axios";
 
 interface Payload {
+	id: string;
 	firstName: string;
 	lastName: string;
 	email: string;
