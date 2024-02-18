@@ -7,7 +7,7 @@ import {
 	EyeOutlined,
 } from "@ant-design/icons";
 import { message } from "antd";
-import login from "../../services/login";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -16,6 +16,7 @@ export default function Login() {
 	const [messageApi, contextHolder] = message.useMessage();
 	const [isPasswordType, setIsPasswordType] = useState(true);
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const success = (message: string) => {
 		messageApi.open({
@@ -39,13 +40,13 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			await login({ email, password });
+			login(email, password);
 			success(`Welcome back!`);
 			setTimeout(() => {
 				navigate("/");
 			}, 1000);
-		} catch (err) {
-			error("An error occurred");
+		} catch (err: any) {
+			error(err.message);
 			throw err;
 		} finally {
 			setLoading(false);
