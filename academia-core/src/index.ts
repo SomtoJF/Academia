@@ -4,7 +4,7 @@ import connectToDatabase from "./database.js";
 import cors from "cors";
 import express from "express";
 import typeDefs from "./schema/schema.js";
-import resolvers from "./resolvers/index.js";
+import resolvers from "./resolver.js";
 import { expressMiddleware } from "@apollo/server/express4";
 
 const app = express();
