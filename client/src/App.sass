@@ -9,6 +9,8 @@ $white: #FFFFFF
 $green: #5DCCA0
 $lime: #B5EF65
 $black: #1F1F29
+$grey: #F6F4F5
+$outlineColor: lighten(grey,40)
 
 $background-color: $white
 $text-color: $black
@@ -28,6 +30,11 @@ $page-width: min(100vw, 1500px)
   width: $page-width
   padding: 0px 5%
   box-sizing: border-box
+
+.protected-page
+  width: $page-width
+  main
+    padding-left: max(300px, 20%)
 
 html, body
   background-color: $background-color
