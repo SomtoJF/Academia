@@ -9,7 +9,8 @@ import {
 } from "@ant-design/icons";
 import { Tooltip, message, RadioChangeEvent, Radio } from "antd";
 import { useAuth } from "../../contexts/AuthContext";
-import createUserInBackend from "../../services/signup";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER_MUTATION } from "../../services/graphql";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
@@ -17,11 +18,12 @@ export default function Signup() {
 	const [firstName, setFirstname] = useState("");
 	const [lastName, setLastname] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [role, setRole] = useState<"student" | "examiner">("student");
+	const [role, setRole] = useState<"STUDENT" | "EXAMINER">("STUDENT");
 	const [messageApi, contextHolder] = message.useMessage();
 	const navigate = useNavigate();
 	const [isPasswordType, setIsPasswordType] = useState(true);
 	const { signup } = useAuth();
+	const [createUser] = useMutation(CREATE_USER_MUTATION);
 
 	const success = (message: string) => {
 		messageApi.open({
@@ -47,7 +49,9 @@ export default function Signup() {
 			setLoading(true);
 			const response = await signup(email, password);
 			const uuid = response.uid;
-			await createUserInBackend({ email, firstName, lastName, role, id: uuid });
+			await createUser({
+				variables: { edits: { email, firstName, lastName, role, _id: uuid } },
+			});
 			success("Account created successfully");
 			setTimeout(() => {
 				navigate("/login");
@@ -143,8 +147,8 @@ export default function Signup() {
 							</span>
 						</Tooltip>
 						<Radio.Group onChange={onChangeRole} value={role}>
-							<Radio value={"student"}>Student</Radio>
-							<Radio value={"examiner"}>Examiner</Radio>
+							<Radio value={"STUDENT"}>Student</Radio>
+							<Radio value={"EXAMINER"}>Examiner</Radio>
 						</Radio.Group>
 					</label>
 
