@@ -40,10 +40,10 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			setLoading(true);
-			login(email, password);
+			const response = await login(email, password);
 			success(`Welcome back!`);
 			setTimeout(() => {
-				navigate("/");
+				navigate(`/user/${response.uid}/dashboard`);
 			}, 1000);
 		} catch (err: any) {
 			error(err.message);
