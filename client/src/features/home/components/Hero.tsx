@@ -5,15 +5,10 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 export default function Hero() {
 	return (
 		<section id="hero">
-			<h1>
-				Bridging the gap between traditional and online examination processes.
-			</h1>
+			<h1>Go beyond multiple choice with Academia.</h1>
 			<p>
-				The aim of online examination processes has always been to make
-				examinations faster and more efficient. However, one major issue poses a
-				challenge to the realization of that goal --that is the inability of
-				most platforms to autonomously grade open-ended questions. Academia
-				seeks to solve this problem...
+				Automated AI Grading for Rich, Open-Ended Answers. Experience the
+				flexibility and precision of online examination processes.
 			</p>
 			<button>
 				<Link to={"/signup"}>
