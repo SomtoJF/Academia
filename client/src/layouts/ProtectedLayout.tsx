@@ -14,7 +14,6 @@ const FETCH_USER_ROLE = gql`
 
 export default function ProtectedLayout() {
 	const { currentUser } = useAuth();
-	console.log(currentUser);
 	const { loading } = useQuery(FETCH_USER_ROLE, {
 		variables: { id: currentUser?.uid },
 		onCompleted(data) {
@@ -25,11 +24,14 @@ export default function ProtectedLayout() {
 	return (
 		<div className="protected-page">
 			<Sidebar />
-			{currentUser ? (
+			{currentUser !== null ? (
 				loading ? (
-					<Spin />
+					<main>
+						<Spin />
+					</main>
 				) : (
 					<main>
+						<nav />
 						<Outlet />
 					</main>
 				)
