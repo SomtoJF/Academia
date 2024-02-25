@@ -1,11 +1,11 @@
 import {
+	AppstoreOutlined,
 	CalendarOutlined,
 	DisconnectOutlined,
 	DotChartOutlined,
 	HomeOutlined,
 	QuestionOutlined,
 	UserOutlined,
-	WalletOutlined,
 } from "@ant-design/icons";
 import "./Sidebar.styles.sass";
 import { useAuth } from "../../contexts/AuthContext";
@@ -64,7 +64,7 @@ export default function Sidebar() {
 				</li>
 				<li>
 					<NavLink to={`/user/${id}/dashboard`}>
-						<WalletOutlined /> <span className="link-text">Dashboard</span>
+						<AppstoreOutlined /> <span className="link-text">Dashboard</span>
 					</NavLink>
 				</li>
 				<li>
