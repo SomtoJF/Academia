@@ -82,6 +82,7 @@ input CreateExamArgs {
   examinerId: ID!
   objectiveQuestions: [ObjInput!]
   theoryQuestions: [TheoryInput!]
+  candidatesId: [ID!]
   due: Date!
 }
 
