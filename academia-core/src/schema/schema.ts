@@ -32,6 +32,8 @@ type Exam {
   examiner: User!
   candidates: [User!]
   candidatesId: [ID!]
+  submittedIds: [ID!]
+  submittedCandidates: [User!]
   objectiveQuestions: [ObjQuestion!]
   theoryQuestions: [TheoryQuestion!]
   due: Date!
@@ -86,11 +88,18 @@ input CreateExamArgs {
   due: Date!
 }
 
+input UpdateExamArgs {
+  name: String
+  candidatesId: ID
+  submit: ID
+}
+
 type Mutation {
   createUser(edits: CreateUserArgs!): User
   updateUser(id: ID!, edits: UpdateUserArgs!): User
   deleteUser(id: ID!): User
 
+  updateExam(id: ID!, edits: UpdateExamArgs!): Exam
   createExam(edits: CreateExamArgs!): Exam
   deleteExam(id: ID!): Exam
 }

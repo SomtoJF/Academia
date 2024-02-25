@@ -26,6 +26,10 @@ const ExamModel = new mongoose.Schema({
         type: [ObjQuestionSchema],
         required: false,
     },
+    submittedIds: {
+        type: [String],
+        required: false,
+    },
     theoryQuestions: { type: [TheoryQuestionSchema], required: false },
     due: {
         required: true,

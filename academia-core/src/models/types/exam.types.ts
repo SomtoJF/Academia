@@ -5,6 +5,7 @@ export interface ExamInterface {
 	candidatesId: string[];
 	objectiveQuestions?: ObjQuestionInterface[];
 	theoryQuestions?: TheoryQuestionInterface[];
+	submittedIds?: string[];
 	due: Date;
 }
 
