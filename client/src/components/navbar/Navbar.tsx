@@ -3,8 +3,8 @@ import "./Navbar.styles.sass";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { gql, useQuery } from "@apollo/client";
 import { useAuth } from "../../contexts/AuthContext";
-import { Avatar } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import CustomAvatar from "../avatar/CustomAvatar";
 
 const NAV_INFO_QUERY = gql`
 	query userQuery($id: ID!) {
@@ -39,13 +39,11 @@ export default function Navbar() {
 			{loading ? (
 				<LoadingOutlined />
 			) : currentUser ? (
-				<Avatar
-					src={data.user.profilePicture ? data.user.profilePicture : null}
-					style={{ backgroundColor: "#CB9BFA" }}
-					size={35}
-				>{`${data.user.firstName.charAt(0)}${data.user.lastName.charAt(
-					0
-				)}`}</Avatar>
+				<CustomAvatar
+					firstName={data.user.firstName}
+					lastName={data.user.lastName}
+					profilePicture={data.user.profilePicture}
+				/>
 			) : (
 				<AuthButtons />
 			)}
