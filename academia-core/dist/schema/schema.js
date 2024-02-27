@@ -27,6 +27,7 @@ type User {
 
 type Exam {
   _id: ID!
+  inviteId: ID!
   name: String!
   examinerId: ID!
   examiner: User!

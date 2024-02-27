@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import Exam from "../models/exam.model.js";
 import User from "../models/user.model.js";
 /**
@@ -18,13 +19,17 @@ export async function getExam(id) {
  * @param edits
  * @returns A new created exam in JSON format
  */
-export async function createExam(edits) {
+export async function createExam({ edits }) {
     try {
+        console.log(edits.examinerId);
         const examiner = await User.findById(edits.examinerId);
+        if (!examiner)
+            throw new Error("This user does not exist");
         if (examiner.role !== "EXAMINER") {
             throw new Error("Only Examiners are allowed to create exams");
         }
-        const newExam = new Exam(edits);
+        const payload = { ...edits, inviteId: nanoid(6) };
+        const newExam = new Exam(payload);
         return newExam.save();
     }
     catch (err) {

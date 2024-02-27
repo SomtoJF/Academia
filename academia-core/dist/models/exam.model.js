@@ -14,6 +14,13 @@ const ExamModel = new mongoose.Schema({
         type: String,
         required: true,
     },
+    inviteId: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        maxlength: [6, "InviteId cannot be more than 6 characters"],
+    },
     examinerId: {
         type: String,
         required: true,
