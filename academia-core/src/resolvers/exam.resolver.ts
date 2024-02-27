@@ -36,6 +36,10 @@ export async function createExam({ edits }: CreateExamInterface) {
 	}
 }
 
+export async function examByInvite(id: string) {
+	return await Exam.findOne({ inviteId: id });
+}
+
 /**
  *
  * @param id Id of the exam to delete

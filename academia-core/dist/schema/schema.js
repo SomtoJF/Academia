@@ -109,5 +109,6 @@ type Query {
   user(id: ID!): User
 
   exam(id: ID!): Exam
+  examByInvite(inviteId: ID!) : Exam
 }`;
 export default typeDefs;

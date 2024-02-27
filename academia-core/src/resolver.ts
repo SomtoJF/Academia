@@ -5,6 +5,7 @@ import {
 	UpdateExamInterface,
 	createExam,
 	deleteExam,
+	examByInvite,
 	getExam,
 	getExamCandidates,
 	getExamExaminer,
@@ -25,12 +26,17 @@ import {
 type IdObjectType = {
 	id: string;
 };
+type InviteIdObjectType = {
+	inviteId: string;
+};
 
 const resolvers = {
 	Date: dateScalar,
 	Query: {
 		user: async (_: any, { id }: IdObjectType) => await getUser(id),
 		exam: async (_: any, { id }: IdObjectType) => await getExam(id),
+		examByInvite: async (_: any, { inviteId }: InviteIdObjectType) =>
+			await examByInvite(inviteId),
 	},
 	User: {
 		examsTaken: async (parent: UserInterface) =>

@@ -1,4 +1,4 @@
-import { createExam, deleteExam, getExam, getExamCandidates, getExamExaminer, updateExam, } from "./resolvers/exam.resolver.js";
+import { createExam, deleteExam, examByInvite, getExam, getExamCandidates, getExamExaminer, updateExam, } from "./resolvers/exam.resolver.js";
 import dateScalar from "./resolvers/scalars/date.scalar.js";
 import { createUser, deleteUser, getExamsSet, getExamsTaken, getUser, updateUser, } from "./resolvers/user.resolvers.js";
 const resolvers = {
@@ -6,6 +6,7 @@ const resolvers = {
     Query: {
         user: async (_, { id }) => await getUser(id),
         exam: async (_, { id }) => await getExam(id),
+        examByInvite: async (_, { inviteId }) => await examByInvite(inviteId),
     },
     User: {
         examsTaken: async (parent) => await getExamsTaken(parent._id),
