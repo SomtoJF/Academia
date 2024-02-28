@@ -1,0 +1,27 @@
+@use "../../App"
+
+.nav-searchbar
+    height: 10vh
+    width: 100%
+    border: solid 1px App.$outlineColor
+    border-left: none
+    form
+        width: 100%
+        height: 100%
+        box-sizing: border-box
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: 0px 5%
+        gap: 5%
+        button
+            // @include App.actionButton()
+            color: App.$white
+            background-color: App.$black
+            border: none
+            width: 100px
+            height: 40px
+            border-radius: 7px
+        // input
+        //     height: 50px
+        //     width: max(20vw, 250px)
