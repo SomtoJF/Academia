@@ -64,26 +64,22 @@ export async function getExamExaminer(id) {
     }
 }
 export async function updateExam({ id, edits }) {
-    try {
-        if (edits.submit) {
-            // check if candidate is registered for the exam
-            const document = await Exam.findOne({
-                candidatesId: { $in: edits.submit },
-            });
-            if (!document)
-                throw new Error("Candidate did not register for this examination");
-        }
-        await Exam.updateOne({ _id: id }, { $push: { submittedIds: { $each: [edits.submit] } } });
-        if (edits.candidatesId)
-            await Exam.updateOne({ _id: id }, { $push: { candidatesId: { $each: [edits.candidatesId] } } });
-        const exam = await Exam.findById(id);
-        if (edits.name) {
-            exam.name = edits.name;
-            await exam.save();
-        }
-        return await Exam.findById(id);
+    const thisExam = await Exam.findById(id);
+    if (edits.submit) {
+        // Throw error if candidate submits without registering
+        if (!thisExam.candidatesId.includes(edits.submit))
+            throw new Error("Candidate did not register for this examination");
     }
-    catch (error) {
-        throw error;
+    await Exam.updateOne({ _id: id }, { $push: { submittedIds: { $each: [edits.submit] } } });
+    if (edits.candidatesId) {
+        if (thisExam.candidatesId.includes(edits.candidatesId))
+            throw new Error("This user is already registered for the exam");
+        await Exam.updateOne({ _id: id }, { $push: { candidatesId: { $each: [edits.candidatesId] } } });
     }
+    const exam = await Exam.findById(id);
+    if (edits.name) {
+        exam.name = edits.name;
+        await exam.save();
+    }
+    return await Exam.findById(id);
 }
