@@ -13,6 +13,7 @@ $green: #5DCCA0
 $lime: #B5EF65
 $black: #1F1F29
 $grey: #F6F4F5
+$purple: #CB9BFA
 $outlineColor: lighten(grey,40)
 
 $background-color: $white
@@ -40,10 +41,18 @@ $page-width: min(100vw, 1500px)
   display: flex
   &>main
     flex: 1
-    &>nav
-      height: 10vh
-      width: 100%
-      border: solid 1px $outlineColor
+
+@mixin actionButton()
+  border-radius: 25px
+  background-color: $black
+  color: $white
+  padding: 15px 30px
+  border: none
+  svg
+    transform: rotate(45deg)
+    transition: 1s
+    &:hover
+      transform: rotate(0deg)
 
 html, body
   background-color: $background-color

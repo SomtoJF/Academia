@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { gql, useQuery } from "@apollo/client";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Spin } from "antd";
+import NavSearchBar from "../components/nav-searchbar/NavSearchBar";
 
 const FETCH_USER_ROLE = gql`
 	query fetchUserRole($id: ID!) {
@@ -16,9 +17,6 @@ export default function ProtectedLayout() {
 	const { currentUser } = useAuth();
 	const { loading } = useQuery(FETCH_USER_ROLE, {
 		variables: { id: currentUser?.uid },
-		onCompleted(data) {
-			console.log(data);
-		},
 	});
 
 	return (
@@ -26,12 +24,18 @@ export default function ProtectedLayout() {
 			<Sidebar />
 			{currentUser !== null ? (
 				loading ? (
-					<main>
+					<main
+						style={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+						}}
+					>
 						<Spin />
 					</main>
 				) : (
 					<main>
-						<nav />
+						<NavSearchBar />
 						<Outlet />
 					</main>
 				)
