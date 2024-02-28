@@ -92,7 +92,7 @@ export default function NavSearchBar() {
 					</button>
 				</form>
 			</nav>
-			{data && (
+			{data && data.examByInvite && (
 				<SearchResultModal
 					open={open}
 					setOpen={setOpen}
