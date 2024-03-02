@@ -29,7 +29,7 @@ export default function Dashboard() {
 			{loading ? (
 				<Spin />
 			) : data && data.user.role === "STUDENT" ? (
-				<StudentDashboard />
+				<StudentDashboard userId={currentUser.uid} />
 			) : data && data.user.role === "EXAMINER" ? (
 				<ExaminerDashboard userId={currentUser.uid} />
 			) : (
