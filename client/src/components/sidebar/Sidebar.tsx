@@ -78,7 +78,7 @@ export default function Sidebar() {
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to={"/sjsjd"}>
+					<NavLink to={`/user/${id}/account`}>
 						<UserOutlined /> <span className="link-text">My Account</span>
 					</NavLink>
 				</li>
