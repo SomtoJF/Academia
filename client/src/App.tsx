@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import Dashboard from "./pages/components/Dashboard";
+import Account from "./pages/components/Account";
 
 const router = createBrowserRouter([
 	{
@@ -22,7 +23,10 @@ const router = createBrowserRouter([
 	{
 		path: "/user/:id",
 		element: <ProtectedLayout />,
-		children: [{ path: "dashboard", element: <Dashboard /> }],
+		children: [
+			{ path: "dashboard", element: <Dashboard /> },
+			{ path: "account", element: <Account /> },
+		],
 	},
 	{ path: "/signup", element: <Signup /> },
 ]);
