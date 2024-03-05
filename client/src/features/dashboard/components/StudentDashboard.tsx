@@ -5,6 +5,7 @@ import moment from "moment";
 import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
 import { DisplayExamTitles } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
@@ -44,7 +45,7 @@ export default function StudentDashboard({ userId }: props) {
 	const [concludedExams, setConcludedExams] = useState<Array<Exam>>([]);
 	const [upcomingExams, setUpcomingExams] = useState<Array<Exam>>([]);
 	// two sections: Upcoming Exams and Past Exams
-	const { loading, refetch } = useQuery(GET_EXAMINER_DATA, {
+	const { loading, refetch, data } = useQuery(GET_EXAMINER_DATA, {
 		variables: { id: userId },
 		onCompleted(data) {
 			setConcludedExams(
@@ -61,21 +62,26 @@ export default function StudentDashboard({ userId }: props) {
 	});
 	return (
 		<>
-			{!loading ? (
-				concludedExams && (
-					<>
-						<DisplayExams
-							title={DisplayExamTitles.UPCOMING}
-							key={uuidv4()}
-							exams={upcomingExams}
-						/>
-						<DisplayExams
-							title={DisplayExamTitles.CONCLUDED}
-							key={uuidv4()}
-							exams={concludedExams}
-						/>
-					</>
-				)
+			{loading ? (
+				<div className="error-boundary">
+					<p>Fetching data from server...</p>{" "}
+					<button type="button">
+						<LoadingOutlined />
+					</button>
+				</div>
+			) : data ? (
+				<>
+					<DisplayExams
+						title={DisplayExamTitles.UPCOMING}
+						key={uuidv4()}
+						exams={upcomingExams}
+					/>
+					<DisplayExams
+						title={DisplayExamTitles.CONCLUDED}
+						key={uuidv4()}
+						exams={concludedExams}
+					/>
+				</>
 			) : (
 				<ErrorBoundary
 					message="Failed to retrieve data"
