@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import { ArrowRightOutlined, WalletOutlined } from "@ant-design/icons";
 import CustomAvatar from "../../../components/avatar/CustomAvatar";
 import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
+import { DisplayExamTitles } from "../../../types";
 
 type props = {
-	title: string;
+	title: DisplayExamTitles;
 	exams: Exam[] | [];
 };
 
@@ -49,7 +50,14 @@ export default function DisplayExams({ title, exams }: props) {
 	}, []);
 	if (!exams[0]) {
 		return (
-			<ErrorBoundary loading={false} message="You have no upcoming exams" />
+			<ErrorBoundary
+				loading={false}
+				message={
+					title == DisplayExamTitles.UPCOMING
+						? "You have no upcoming exams"
+						: "No exams have been concluded yet"
+				}
+			/>
 		);
 	}
 	return (

@@ -3,6 +3,8 @@ import { useState } from "react";
 import DisplayExams from "./DisplayExams";
 import moment from "moment";
 import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
+import { DisplayExamTitles } from "../../../types";
+import { v4 as uuidv4 } from "uuid";
 
 const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
@@ -62,8 +64,16 @@ export default function StudentDashboard({ userId }: props) {
 			{!loading ? (
 				concludedExams && (
 					<>
-						<DisplayExams title="Upcoming Exams" exams={upcomingExams} />
-						<DisplayExams title="Concluded Exams" exams={concludedExams} />
+						<DisplayExams
+							title={DisplayExamTitles.UPCOMING}
+							key={uuidv4()}
+							exams={upcomingExams}
+						/>
+						<DisplayExams
+							title={DisplayExamTitles.CONCLUDED}
+							key={uuidv4()}
+							exams={concludedExams}
+						/>
 					</>
 				)
 			) : (
