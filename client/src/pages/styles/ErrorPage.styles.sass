@@ -1,0 +1,36 @@
+@use "../../App"
+
+#error-page
+    // background-color: red
+    padding-top: 5%
+    width: 100%
+    height: 100vh
+    overflow: hidden
+    display: flex
+    flex-direction: column
+    color: grey
+    justify-content: flex-start
+    align-items: center
+    gap: 5%
+    h1
+        font-size: 4rem
+        font-weight: 600
+        margin: 0px
+    #routing-container
+        z-index: 2
+        display: flex
+        gap: 20px
+        button
+            padding: 15px 20px
+            background-color: App.$black
+            color: App.$white
+            border-radius: 10px
+            border: none
+            a
+                color: inherit
+                text-decoration: none
+    img
+        position: relative
+        bottom: 0px
+        height: 70%
+        margin-top: -10%
