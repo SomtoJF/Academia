@@ -10,6 +10,8 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import Dashboard from "./pages/components/Dashboard";
 import Account from "./pages/components/Account";
 import Schedule from "./pages/components/Schedule";
+import CreateExam from "./pages/components/CreateExam";
+import ErrorPage from "./pages/components/ErrorPage";
 
 const router = createBrowserRouter([
 	{
@@ -24,10 +26,16 @@ const router = createBrowserRouter([
 	{
 		path: "/user/:id",
 		element: <ProtectedLayout />,
+		errorElement: <ErrorPage />,
 		children: [
 			{ path: "dashboard", element: <Dashboard /> },
 			{ path: "account", element: <Account /> },
 			{ path: "schedule", element: <Schedule /> },
+			{
+				path: "create/exam",
+				element: <CreateExam />,
+				errorElement: <ErrorPage />,
+			},
 		],
 	},
 	{ path: "/signup", element: <Signup /> },
