@@ -9,6 +9,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import Dashboard from "./pages/components/Dashboard";
 import Account from "./pages/components/Account";
+import Schedule from "./pages/components/Schedule";
 
 const router = createBrowserRouter([
 	{
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
 		children: [
 			{ path: "dashboard", element: <Dashboard /> },
 			{ path: "account", element: <Account /> },
+			{ path: "schedule", element: <Schedule /> },
 		],
 	},
 	{ path: "/signup", element: <Signup /> },

@@ -73,7 +73,7 @@ export default function Sidebar() {
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to={"/hsj"}>
+					<NavLink to={`/user/${id}/schedule`}>
 						<CalendarOutlined /> <span className="link-text">Schedule</span>
 					</NavLink>
 				</li>
