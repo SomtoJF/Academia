@@ -12,6 +12,7 @@ import Account from "./pages/components/Account";
 import Schedule from "./pages/components/Schedule";
 import CreateExam from "./pages/components/CreateExam";
 import ErrorPage from "./pages/components/ErrorPage";
+import FAQs from "./pages/components/FAQs";
 
 const router = createBrowserRouter([
 	{
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
 				element: <CreateExam />,
 				errorElement: <ErrorPage />,
 			},
+			{ path: "faqs", element: <FAQs /> },
 		],
 	},
 	{ path: "/signup", element: <Signup /> },
