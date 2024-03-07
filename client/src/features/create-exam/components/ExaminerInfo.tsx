@@ -1,5 +1,5 @@
 import { Avatar, Divider } from "antd";
-import "./ExaminerInfo.styles.sass";
+import "../styles/ExaminerInfo.styles.sass";
 import { EditOutlined } from "@ant-design/icons";
 import { DatePicker, DatePickerProps } from "antd";
 

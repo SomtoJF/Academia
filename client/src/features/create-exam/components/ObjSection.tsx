@@ -1,6 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { ObjectiveQuestions } from "../../../types";
-import "./ObjSection.styles.sass";
+import "../styles/ObjSection.styles.sass";
 import { useState } from "react";
 import ExamModal from "./ExamModal";
 
@@ -9,7 +9,7 @@ interface Props {
 	setObjQuestions: (objQuestions: ObjectiveQuestions[]) => void;
 }
 
-export default function ObjSection({}: Props) {
+export default function ObjSection({ objQuestions, setObjQuestions }: Props) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	return (
 		<section id="obj-section">
@@ -26,6 +26,8 @@ export default function ObjSection({}: Props) {
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
 				title="New Objective Question"
+				setObjQuestions={setObjQuestions}
+				objQuestions={objQuestions}
 			/>
 		</section>
 	);
