@@ -1,0 +1,16 @@
+@use "../../App"
+
+li.option
+    box-sizing: border-box
+    padding: 5px
+    width: 100%
+    &>div
+        display: flex
+        justify-content: space-between
+        button
+            background-color: inherit
+            border: none
+            &:nth-child(2)
+                color: red
+    &.correct
+        background-color: App.$green
