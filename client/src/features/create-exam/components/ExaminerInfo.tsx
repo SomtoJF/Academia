@@ -1,6 +1,7 @@
 import { Avatar, Divider } from "antd";
 import "./ExaminerInfo.styles.sass";
 import { EditOutlined } from "@ant-design/icons";
+import { DatePicker, DatePickerProps } from "antd";
 
 interface Props {
 	firstName: string;
@@ -8,6 +9,7 @@ interface Props {
 	email: string;
 	examName: string;
 	profilePicture: string;
+	setDueDate: (date: Date | undefined) => void;
 	setExamName: (name: string) => void;
 }
 
@@ -18,7 +20,11 @@ export default function ExaminerInfo({
 	email,
 	examName,
 	setExamName,
+	setDueDate,
 }: Props) {
+	const selectDate = (value: DatePickerProps["value"]) => {
+		setDueDate(value?.toDate());
+	};
 	return (
 		<div id="examiner-info">
 			<Avatar
@@ -26,11 +32,14 @@ export default function ExaminerInfo({
 				style={{
 					width: "auto",
 					height: "100%",
-					backgroundColor: "black",
+					backgroundColor: "#CB9BFA",
+					color: "#1F1F29",
+					fontWeight: "bold",
 					fontSize: "1.5rem",
+					border: "solid 2px #1F1F29",
 				}}
 			>
-				{firstName.charAt(0) + " "}
+				{firstName.charAt(0)}
 				{lastName.charAt(0)}
 			</Avatar>
 			<h3>{`${firstName} ${lastName}`}</h3>
@@ -50,6 +59,10 @@ export default function ExaminerInfo({
 				/>
 				<EditOutlined />
 			</label>
+			<div id="due-date">
+				<span>Due date*: </span>
+				<DatePicker showTime onOk={selectDate} placeholder="Select due date" />
+			</div>
 		</div>
 	);
 }

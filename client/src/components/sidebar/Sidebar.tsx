@@ -83,7 +83,7 @@ export default function Sidebar() {
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to={"/hhdj"}>
+					<NavLink to={`/user/${id}/faqs`}>
 						<QuestionOutlined />
 						<span className="link-text">FAQs</span>
 					</NavLink>
