@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { ObjectiveQuestions } from "../../../types";
 import "../styles/ObjSection.styles.sass";
 import { useState } from "react";
-import ExamModal from "./ExamModal";
+import NewObjQuestionModal from "./NewObjQuestionModal";
 import ObjQuestion from "../../../components/obj-question/ObjQuestion";
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,7 +29,7 @@ export default function ObjSection({ objQuestions, setObjQuestions }: Props) {
 				<PlusOutlined />
 				New question
 			</button>
-			<ExamModal
+			<NewObjQuestionModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
 				title="New Objective Question"
