@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Modal, message } from "antd";
 import { useState } from "react";
 import "../styles/ExamModal.styles.sass";
-import Options from "../../../components/exam-options/Options";
+import Options from "../../../components/exam-options/OptionsSection";
 import { ObjectiveQuestions } from "../../../types";
 
 interface Props {
