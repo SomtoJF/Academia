@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 interface Props {
 	options: string[];
-	handleDeleteOption: (index: number) => void;
-	correctOption: number;
-	setCorrectOption: (index: number) => void;
+	handleDeleteOption?: (index: number) => void;
+	correctOption?: number;
+	setCorrectOption?: (index: number) => void;
 }
 import "./OptionsSection.styles.sass";
 import Option from "./Option";

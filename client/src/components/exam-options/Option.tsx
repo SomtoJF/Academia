@@ -5,9 +5,9 @@ import "./Option.styles.sass";
 interface Props {
 	option: string;
 	index: number;
-	handleDeleteOption: (index: number) => void;
-	correctOption: number;
-	setCorrectOption: (index: number) => void;
+	handleDeleteOption?: (index: number) => void;
+	correctOption?: number;
+	setCorrectOption?: (index: number) => void;
 }
 
 export default function Option({
@@ -29,24 +29,26 @@ export default function Option({
 		>
 			<div>
 				{option}
-				<div>
-					<button
-						type="button"
-						onClick={() => {
-							setCorrectOption(index);
-						}}
-					>
-						<CheckOutlined />
-					</button>
-					<button
-						type="button"
-						onClick={() => {
-							handleDeleteOption(index);
-						}}
-					>
-						<CloseOutlined />
-					</button>
-				</div>
+				{setCorrectOption && handleDeleteOption && (
+					<div>
+						<button
+							type="button"
+							onClick={() => {
+								setCorrectOption(index);
+							}}
+						>
+							<CheckOutlined />
+						</button>
+						<button
+							type="button"
+							onClick={() => {
+								handleDeleteOption(index);
+							}}
+						>
+							<CloseOutlined />
+						</button>
+					</div>
+				)}
 			</div>
 		</li>
 	);
