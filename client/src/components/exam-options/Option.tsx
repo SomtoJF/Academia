@@ -29,8 +29,8 @@ export default function Option({
 		>
 			<div>
 				{option}
-				{setCorrectOption && handleDeleteOption && (
-					<div>
+				<div>
+					{setCorrectOption && (
 						<button
 							type="button"
 							onClick={() => {
@@ -39,6 +39,8 @@ export default function Option({
 						>
 							<CheckOutlined />
 						</button>
+					)}
+					{handleDeleteOption && (
 						<button
 							type="button"
 							onClick={() => {
@@ -47,8 +49,8 @@ export default function Option({
 						>
 							<CloseOutlined />
 						</button>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 		</li>
 	);
