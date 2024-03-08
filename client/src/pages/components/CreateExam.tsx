@@ -3,11 +3,13 @@ import ExaminerInfo from "../../features/create-exam/components/ExaminerInfo";
 import "../styles/CreateExam.styles.sass";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { FormEvent, useEffect, useState } from "react";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Exam, ObjectiveQuestions } from "../../types";
 import ObjSection from "../../features/create-exam/components/ObjSection";
 import storageAvailable from "../../utils/storage-available";
-import { message } from "antd";
+import { message, Modal } from "antd";
+import TheorySection from "../../features/create-exam/components/TheorySection";
+import { TheoryQuestion } from "../../types/interface/theory-question.interface";
 const FETCH_USER_DATA = gql`
 	query fetchUserRole($id: ID!) {
 		user(id: $id) {
@@ -34,9 +36,11 @@ export default function CreateExam() {
 	const [objectiveQuestions, setObjectiveQuestions] = useState<
 		ObjectiveQuestions[]
 	>([]);
+	const [theoryQuestions, setTheoryQuestions] = useState<TheoryQuestion[]>([]);
 	const [dueDate, setDueDate] = useState<Date>();
 	const [submitLoading, setSubmitLoading] = useState(false);
-	const [messageApi, contextHolder] = message.useMessage();
+	const [messageApi, messageContext] = message.useMessage();
+	const [modal, confirmContext] = Modal.useModal();
 	const [createExam] = useMutation(CREATE_EXAM_MUTATION);
 	const { id } = useParams();
 
@@ -56,6 +60,17 @@ export default function CreateExam() {
 			successMesage("Loaded successfully from draft");
 		}
 	}, []);
+
+	const confirm = (content: string, onOk: () => any) => {
+		modal.confirm({
+			title: "Confirm",
+			icon: <ExclamationCircleOutlined />,
+			content: content,
+			okText: "Yes, go ahead",
+			cancelText: "Cancel",
+			onOk: onOk,
+		});
+	};
 
 	const errorMesage = (message: string) => {
 		messageApi.open({
@@ -79,6 +94,8 @@ export default function CreateExam() {
 			setObjectiveQuestions(
 				JSON.parse(localStorage.getItem("objective-questions")!)
 			);
+		if (localStorage.getItem("theory-questions"))
+			setTheoryQuestions(JSON.parse(localStorage.getItem("theory-questions")!));
 	};
 
 	const handleSaveDraft = () => {
@@ -91,6 +108,11 @@ export default function CreateExam() {
 				localStorage.setItem(
 					"objective-questions",
 					JSON.stringify(objectiveQuestions)
+				);
+			if (theoryQuestions.length > 0)
+				localStorage.setItem(
+					"theory-questions",
+					JSON.stringify(theoryQuestions)
 				);
 			successMesage("Saved successfully");
 		} catch (err: any) {
@@ -134,7 +156,8 @@ export default function CreateExam() {
 
 	return (
 		<>
-			{contextHolder}
+			{messageContext}
+			{confirmContext}
 			<div id="create-exam">
 				{loading ? (
 					<div id="loading-container">
@@ -158,10 +181,19 @@ export default function CreateExam() {
 						objQuestions={objectiveQuestions}
 						setObjQuestions={setObjectiveQuestions}
 					/>
+					<TheorySection
+						theoryQuestions={theoryQuestions}
+						setTheoryQuestions={setTheoryQuestions}
+					/>
 					<button
 						type="button"
 						className="new-exam-control"
-						onClick={handleSaveDraft}
+						onClick={() => {
+							confirm(
+								"This action will overwrite whatever exists in storage. Do you want to go ahead with this action?",
+								handleSaveDraft
+							);
+						}}
 					>
 						Save Draft
 					</button>
@@ -169,7 +201,12 @@ export default function CreateExam() {
 					<button
 						type="button"
 						className="new-exam-control"
-						onClick={handleClearDraft}
+						onClick={() => {
+							confirm(
+								"This action will clear all data from storage. Do you want to go ahead with this action?",
+								handleClearDraft
+							);
+						}}
 					>
 						Clear Draft
 					</button>
