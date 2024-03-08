@@ -84,7 +84,7 @@ export default function CreateExam() {
 	const handleSaveDraft = () => {
 		try {
 			if (!storageAvailable("localStorage"))
-				throw new Error("Cannot save draft");
+				throw new Error("Cannot access storage");
 			localStorage.setItem("exam-name", examName);
 			if (dueDate) localStorage.setItem("due-date", JSON.stringify(dueDate));
 			if (objectiveQuestions.length > 0)
@@ -93,6 +93,19 @@ export default function CreateExam() {
 					JSON.stringify(objectiveQuestions)
 				);
 			successMesage("Saved successfully");
+		} catch (err: any) {
+			errorMesage(err.message);
+		}
+	};
+
+	const handleClearDraft = () => {
+		try {
+			if (!storageAvailable("localStorage"))
+				throw new Error("Cannot access storage");
+			localStorage.removeItem("exam-name");
+			localStorage.removeItem("due-date");
+			localStorage.removeItem("objective-questions");
+			successMesage("Cleared successfully");
 		} catch (err: any) {
 			errorMesage(err.message);
 		}
@@ -134,6 +147,7 @@ export default function CreateExam() {
 						email={data.user.email}
 						profilePicture={data.user.profilePicture}
 						examName={examName}
+						dueDate={dueDate}
 						setExamName={setExamName}
 						setDueDate={setDueDate}
 					/>
@@ -150,6 +164,14 @@ export default function CreateExam() {
 						onClick={handleSaveDraft}
 					>
 						Save Draft
+					</button>
+
+					<button
+						type="button"
+						className="new-exam-control"
+						onClick={handleClearDraft}
+					>
+						Clear Draft
 					</button>
 
 					<button

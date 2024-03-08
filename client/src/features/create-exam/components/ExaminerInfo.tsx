@@ -2,6 +2,7 @@ import { Avatar, Divider } from "antd";
 import "../styles/ExaminerInfo.styles.sass";
 import { EditOutlined } from "@ant-design/icons";
 import { DatePicker, DatePickerProps } from "antd";
+import dayjs from "dayjs";
 
 interface Props {
 	firstName: string;
@@ -9,6 +10,7 @@ interface Props {
 	email: string;
 	examName: string;
 	profilePicture: string;
+	dueDate: Date | undefined;
 	setDueDate: (date: Date | undefined) => void;
 	setExamName: (name: string) => void;
 }
@@ -20,6 +22,7 @@ export default function ExaminerInfo({
 	email,
 	examName,
 	setExamName,
+	dueDate,
 	setDueDate,
 }: Props) {
 	const selectDate = (value: DatePickerProps["value"]) => {
@@ -61,7 +64,12 @@ export default function ExaminerInfo({
 			</label>
 			<div id="due-date">
 				<span>Due date*: </span>
-				<DatePicker showTime onOk={selectDate} placeholder="Select due date" />
+				<DatePicker
+					value={dayjs(dueDate)}
+					showTime
+					onOk={selectDate}
+					placeholder="Select due date"
+				/>
 			</div>
 		</div>
 	);
