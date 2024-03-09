@@ -6,6 +6,7 @@ import { message } from "antd";
 import { useAuth } from "../../contexts/AuthContext";
 import { gql, useMutation } from "@apollo/client";
 import moment from "moment";
+import copyTextToClipBoard from "../../utils/copy-to-clipboard";
 
 interface props {
 	open: boolean;
@@ -82,23 +83,13 @@ export default function SearchResultModal({ open, setOpen, exam }: props) {
 		});
 	};
 
-	const copyTextToClipBoard = (text: string) => {
-		if (navigator.clipboard) {
-			// Check if Clipboard API is available
-			navigator.clipboard
-				.writeText(text)
-				.then(() => {
-					success(
-						"Exam ID copied to clipboard successfully. Share this ID with others to enable them register for this exam"
-					);
-				})
-				.catch((err) => {
-					error("Failed to copy text to clipboard");
-					console.error("Failed to copy text to clipboard:", err);
-				});
-		} else {
-			error("Clipboard API not available.");
-			console.error("Clipboard API not available.");
+	const copyIdToClipBoard = (text: string) => {
+		try {
+			copyTextToClipBoard(text);
+			success("Successfully copied invite id");
+		} catch (err: any) {
+			error(err.message);
+			throw err;
 		}
 	};
 
@@ -118,7 +109,7 @@ export default function SearchResultModal({ open, setOpen, exam }: props) {
 						type="button"
 						id="copy-id"
 						onClick={() => {
-							copyTextToClipBoard(exam.inviteId);
+							copyIdToClipBoard(exam.inviteId);
 						}}
 					>
 						<CopyOutlined />
