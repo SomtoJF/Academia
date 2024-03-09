@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { useAuth } from "../../contexts/AuthContext";
 import "../styles/Dashboard.styles.sass";
 import { Spin } from "antd";
 import StudentDashboard from "../../features/dashboard/components/StudentDashboard";
@@ -18,7 +17,6 @@ const FETCH_USER_ROLE = gql`
 
 export default function Dashboard() {
 	const { id } = useParams();
-	const { currentUser } = useAuth();
 	const { loading, data, refetch } = useQuery(FETCH_USER_ROLE, {
 		variables: { id: id },
 	});
@@ -33,14 +31,14 @@ export default function Dashboard() {
 			{loading ? (
 				<Spin />
 			) : data && data.user.role === "STUDENT" ? (
-				<StudentDashboard userId={currentUser.uid} />
+				<StudentDashboard userId={id!} />
 			) : data && data.user.role === "EXAMINER" ? (
-				<ExaminerDashboard userId={currentUser.uid} />
+				<ExaminerDashboard userId={id!} />
 			) : (
 				<ErrorBoundary
 					refetch={refetch}
 					loading={loading}
-					variables={currentUser?.uid}
+					variables={id}
 					message="Failed to retrieve data from server"
 				/>
 			)}
