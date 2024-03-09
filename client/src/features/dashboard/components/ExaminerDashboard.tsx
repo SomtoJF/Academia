@@ -6,6 +6,7 @@ import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
 import { DisplayExamTitles } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { LoadingOutlined } from "@ant-design/icons";
+import Overview from "./Overview";
 
 const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
@@ -42,8 +43,8 @@ type Exam = {
 };
 
 export default function ExaminerDashboard({ userId }: props) {
-	const [concludedExams, setConcludedExams] = useState<Array<Exam>>([]);
-	const [upcomingExams, setUpcomingExams] = useState<Array<Exam>>([]);
+	const [concludedExams, setConcludedExams] = useState<Exam[]>([]);
+	const [upcomingExams, setUpcomingExams] = useState<Exam[]>([]);
 	const { loading, refetch, data } = useQuery(GET_EXAMINER_DATA, {
 		variables: { id: userId },
 		onCompleted(data) {
@@ -71,6 +72,10 @@ export default function ExaminerDashboard({ userId }: props) {
 				</div>
 			) : data ? (
 				<>
+					<Overview
+						upcomingExams={upcomingExams}
+						concludedExams={concludedExams}
+					/>
 					<DisplayExams
 						title={DisplayExamTitles.UPCOMING}
 						key={uuidv4()}

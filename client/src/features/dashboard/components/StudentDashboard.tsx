@@ -6,6 +6,7 @@ import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
 import { DisplayExamTitles } from "../../../types";
 import { v4 as uuidv4 } from "uuid";
 import { LoadingOutlined } from "@ant-design/icons";
+import Overview from "./Overview";
 
 const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
@@ -71,6 +72,10 @@ export default function StudentDashboard({ userId }: props) {
 				</div>
 			) : data ? (
 				<>
+					<Overview
+						upcomingExams={upcomingExams}
+						concludedExams={concludedExams}
+					/>
 					<DisplayExams
 						title={DisplayExamTitles.UPCOMING}
 						key={uuidv4()}
