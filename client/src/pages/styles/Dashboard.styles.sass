@@ -4,14 +4,26 @@
     width: 100%
     font-family: App.$inter
     box-sizing: border-box
+    padding-top: 7vh
     header
-        margin: 20px 0px
-        display: grid
-        grid-template-columns: 1fr 1fr
-        grid-template-rows: 1fr 1fr
+        background-color: #EFE1FE
+        padding: 0px 5%
+        box-sizing: border-box
+        height: 25vh
+        display: flex
         align-items: center
+        justify-content: space-between
+        margin: 20px 0px
+        border-radius: 20px
+        &>div:first-child
+            display: flex
+            flex-direction: column
+            gap: 10px
         small
-            font-weight: 600
-            opacity: 0.5
-        h1
-            font-weight: 600
+            font-family: App.$outfit
+        &>img
+            width: 25%
+            align-self: flex-end
+    h1, h2
+        margin: 0px
+        font-weight: 600
