@@ -3,7 +3,7 @@ import { TheoryQuestion } from "./theory-question.interface";
 
 export interface Exam {
 	name: string;
-	due: Date;
+	due: Date | number;
 	objectiveQuestions: ObjectiveQuestions[];
 	theoryQuestions: TheoryQuestion[];
 	examinerId: string;

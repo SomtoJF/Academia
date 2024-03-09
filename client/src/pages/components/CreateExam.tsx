@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ExaminerInfo from "../../features/create-exam/components/ExaminerInfo";
 import "../styles/CreateExam.styles.sass";
 import { gql, useMutation, useQuery } from "@apollo/client";
@@ -10,6 +10,7 @@ import storageAvailable from "../../utils/storage-available";
 import { message, Modal } from "antd";
 import TheorySection from "../../features/create-exam/components/TheorySection";
 import { TheoryQuestion } from "../../types/interface/theory-question.interface";
+import moment from "moment";
 const FETCH_USER_DATA = gql`
 	query fetchUserRole($id: ID!) {
 		user(id: $id) {
@@ -43,6 +44,7 @@ export default function CreateExam() {
 	const [modal, confirmContext] = Modal.useModal();
 	const [createExam] = useMutation(CREATE_EXAM_MUTATION);
 	const { id } = useParams();
+	const navigate = useNavigate();
 
 	const { error, loading, data } = useQuery(FETCH_USER_DATA, {
 		variables: { id: id },
@@ -133,20 +135,29 @@ export default function CreateExam() {
 		}
 	};
 
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
+			setSubmitLoading(true);
 			if (!dueDate) throw new Error("A due date is required");
-			if (examName === "") throw new Error("You must set an exam name");
+			if (moment(dueDate).isBefore())
+				throw new Error("Your exam due date must be in the future");
+			if (examName === "") throw new Error("You must set a name for this exam");
 			const payload: Partial<Exam> = {
 				examinerId: id,
 				name: examName,
-				due: dueDate,
+				due: new Date(dueDate).getTime(),
 				objectiveQuestions: objectiveQuestions,
+				theoryQuestions: theoryQuestions,
 			};
-			createExam({ variables: { edits: payload } });
-			setSubmitLoading(true);
-		} catch (error) {
+			await createExam({ variables: { edits: payload } });
+			successMesage("Exam uploaded successfully");
+			setTimeout(() => {
+				navigate(`/user/${id}/dashboard`);
+			}, 2000);
+		} catch (error: any) {
+			errorMesage(error.message);
+			throw error;
 		} finally {
 			setSubmitLoading(false);
 		}
