@@ -13,12 +13,23 @@ interface Props {
 
 export default function ObjSection({ objQuestions, setObjQuestions }: Props) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const handleDeleteQuestion = (index: number) => {
+		setObjQuestions(
+			objQuestions.slice(0, index).concat(objQuestions.slice(index + 1))
+		);
+	};
 	return (
 		<section id="obj-section">
 			<h2>Multiple Choice Section</h2>
 			<ol>
-				{objQuestions.map((question) => (
-					<ObjQuestion key={uuidv4()} question={question} />
+				{objQuestions.map((question, index) => (
+					<ObjQuestion
+						key={uuidv4()}
+						question={question}
+						index={index}
+						handleDeleteQuestion={handleDeleteQuestion}
+					/>
 				))}
 			</ol>
 			<button

@@ -17,12 +17,23 @@ export default function TheorySection({
 	setTheoryQuestions,
 }: Props) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const handleDeleteQuestion = (index: number) => {
+		setTheoryQuestions(
+			theoryQuestions.slice(0, index).concat(theoryQuestions.slice(index + 1))
+		);
+	};
 	return (
 		<section id="obj-section">
 			<h2>Theory Section</h2>
 			<ol>
-				{theoryQuestions.map((question) => (
-					<TheoryQuestion key={uuidv4()} question={question} />
+				{theoryQuestions.map((question, index) => (
+					<TheoryQuestion
+						key={uuidv4()}
+						question={question}
+						index={index}
+						handleDeleteQuestion={handleDeleteQuestion}
+					/>
 				))}
 			</ol>
 			<button
