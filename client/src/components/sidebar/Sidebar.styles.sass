@@ -2,6 +2,8 @@
 
 #sidebar
     width: 60px
+    // padding-top: 3%
+    box-sizing: border-box
     height: 100vh
     background-color: App.$grey
     border-right: solid 1px App.$outlineColor
@@ -37,6 +39,8 @@
                 &:active
                     color: App.$black
     ul
+        display: flex
+        flex-direction: column
         flex: 1
         list-style-type: none
         border-bottom: solid 1px App.$outlineColor
@@ -52,11 +56,11 @@
             font-weight: 500
             a
                 width: 100%
+                padding-left: 10px
                 height: 100%
                 display: flex
                 align-items: center
                 box-sizing: border-box
-                padding-left: 10px
                 border-radius: 10px
                 color: inherit
                 background-color: inherit

@@ -6,19 +6,21 @@ import {
 	HomeOutlined,
 	QuestionOutlined,
 	UserOutlined,
+	VerticalLeftOutlined,
+	VerticalRightOutlined,
 } from "@ant-design/icons";
 import "./Sidebar.styles.sass";
 import { useAuth } from "../../contexts/AuthContext";
 import { NavLink, useParams } from "react-router-dom";
 import gsap from "gsap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Sidebar() {
 	const { logout } = useAuth();
 	const { id } = useParams();
 	const [isSidebarExpanded, setSideBarExpanded] = useState(false);
 
-	const expandSideBar = () =>
+	const expandSideBar = () => {
 		gsap.to("#sidebar", {
 			width: "max(250px, 15%)",
 			duration: "0.25",
@@ -26,63 +28,65 @@ export default function Sidebar() {
 				gsap.to(".link-text", { display: "inline" });
 			},
 		});
+		setSideBarExpanded(true);
+	};
 	const collapseSideBar = () => {
-		const elements = document.getElementsByClassName("link-text");
-
-		// Loop through the collection and set their display style to 'none'
-		for (let i = 0; i < elements.length; i++) {
-			const element = elements[i] as HTMLElement;
-			element.style.display = "none";
-		}
-
-		gsap.to("#sidebar", { width: 60, duration: "0.25" });
+		setTimeout(() => {
+			gsap.to(".link-text", {
+				display: "none",
+				duration: "0.1",
+				onComplete: () => {
+					gsap.to("#sidebar", {
+						width: 60,
+						duration: "0.25",
+					});
+				},
+			});
+			setSideBarExpanded(false);
+		}, 500);
 	};
 
-	useEffect(() => {
-		if (isSidebarExpanded) expandSideBar();
-		else
-			setTimeout(() => {
-				collapseSideBar();
-			}, 300);
-	}, [isSidebarExpanded]);
-
 	return (
-		<aside
-			id="sidebar"
-			onMouseOver={() => {
-				setSideBarExpanded(true);
-			}}
-			onMouseLeave={() => {
-				setSideBarExpanded(false);
-			}}
-		>
+		<aside id="sidebar">
 			<ul>
-				<li>
+				<li onClick={isSidebarExpanded ? collapseSideBar : expandSideBar}>
+					<a href="" style={{ pointerEvents: "none" }}>
+						{isSidebarExpanded ? (
+							<VerticalRightOutlined />
+						) : (
+							<VerticalLeftOutlined />
+						)}{" "}
+						<span className="link-text">
+							{isSidebarExpanded ? "Collapse" : null}
+						</span>
+					</a>
+				</li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={"/"}>
 						<HomeOutlined /> <span className="link-text">Home</span>
 					</NavLink>
 				</li>
-				<li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={`/user/${id}/dashboard`}>
 						<AppstoreOutlined /> <span className="link-text">Dashboard</span>
 					</NavLink>
 				</li>
-				<li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={"/hsjs"}>
 						<DotChartOutlined /> <span className="link-text">Results</span>
 					</NavLink>
 				</li>
-				<li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={`/user/${id}/schedule`}>
 						<CalendarOutlined /> <span className="link-text">Schedule</span>
 					</NavLink>
 				</li>
-				<li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={`/user/${id}/account`}>
 						<UserOutlined /> <span className="link-text">My Account</span>
 					</NavLink>
 				</li>
-				<li>
+				<li onClick={collapseSideBar}>
 					<NavLink to={`/user/${id}/faqs`}>
 						<QuestionOutlined />
 						<span className="link-text">FAQs</span>
