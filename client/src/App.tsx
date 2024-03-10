@@ -13,6 +13,7 @@ import Schedule from "./pages/components/Schedule";
 import CreateExam from "./pages/components/CreateExam";
 import ErrorPage from "./pages/components/ErrorPage";
 import FAQs from "./pages/components/FAQs";
+import Exam from "./pages/components/Exam";
 
 const router = createBrowserRouter([
 	{
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
 			{ path: "dashboard", element: <Dashboard /> },
 			{ path: "account", element: <Account /> },
 			{ path: "schedule", element: <Schedule /> },
+			{ path: "exam", element: <Exam /> },
 			{
 				path: "create/exam",
 				element: <CreateExam />,
