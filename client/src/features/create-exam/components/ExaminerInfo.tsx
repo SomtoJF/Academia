@@ -9,10 +9,12 @@ interface Props {
 	lastName: string;
 	email: string;
 	examName: string;
+	setExamName: (name: string) => void;
+	description: string;
+	setDescription: (description: string) => void;
 	profilePicture: string;
 	dueDate: Date | undefined;
 	setDueDate: (date: Date | undefined) => void;
-	setExamName: (name: string) => void;
 }
 
 export default function ExaminerInfo({
@@ -22,6 +24,8 @@ export default function ExaminerInfo({
 	email,
 	examName,
 	setExamName,
+	description,
+	setDescription,
 	dueDate,
 	setDueDate,
 }: Props) {
@@ -33,8 +37,6 @@ export default function ExaminerInfo({
 			<Avatar
 				src={[profilePicture]}
 				style={{
-					width: "auto",
-					height: "100%",
 					backgroundColor: "#CB9BFA",
 					color: "#1F1F29",
 					fontWeight: "bold",
@@ -45,31 +47,47 @@ export default function ExaminerInfo({
 				{firstName.charAt(0)}
 				{lastName.charAt(0)}
 			</Avatar>
-			<h3>{`${firstName} ${lastName}`}</h3>
-			<small>{email}</small>
-			<Divider />
-			<label htmlFor="exam-name">
-				Exam Name:
-				<input
-					type="text"
-					name="examName"
-					id="exam-name"
-					placeholder="Exam Name"
-					value={examName}
-					onChange={(e) => {
-						setExamName(e.target.value);
-					}}
-				/>
-				<EditOutlined />
-			</label>
-			<div id="due-date">
-				<span>Due date*: </span>
-				<DatePicker
-					value={dayjs(dueDate)}
-					showTime
-					onOk={selectDate}
-					placeholder="Select due date"
-				/>
+			<div id="info-container">
+				<h3>{`${firstName} ${lastName}`}</h3>
+				<small>{email}</small>
+				<Divider style={{ margin: "10px 0px" }} />
+				<label htmlFor="exam-name">
+					Exam Name:
+					<input
+						type="text"
+						name="examName"
+						id="exam-name"
+						placeholder="Exam Name"
+						value={examName}
+						onChange={(e) => {
+							setExamName(e.target.value);
+						}}
+					/>
+					<EditOutlined />
+				</label>
+				<label htmlFor="exam-description">
+					Description:
+					<input
+						type="text"
+						name="description"
+						id="exam-description"
+						placeholder="Brief description of your exam here"
+						value={description}
+						onChange={(e) => {
+							setDescription(e.target.value);
+						}}
+					/>
+					<EditOutlined />
+				</label>
+				<div id="due-date">
+					<span>Due date*: </span>
+					<DatePicker
+						value={dayjs(dueDate)}
+						showTime
+						onOk={selectDate}
+						placeholder="Select due date"
+					/>
+				</div>
 			</div>
 		</div>
 	);

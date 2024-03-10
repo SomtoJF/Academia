@@ -37,6 +37,7 @@ export default function CreateExam() {
 	const [objectiveQuestions, setObjectiveQuestions] = useState<
 		ObjectiveQuestions[]
 	>([]);
+	const [description, setDescription] = useState("");
 	const [theoryQuestions, setTheoryQuestions] = useState<TheoryQuestion[]>([]);
 	const [dueDate, setDueDate] = useState<Date>();
 	const [submitLoading, setSubmitLoading] = useState(false);
@@ -96,6 +97,8 @@ export default function CreateExam() {
 			setObjectiveQuestions(
 				JSON.parse(localStorage.getItem("objective-questions")!)
 			);
+		if (localStorage.getItem("description"))
+			setDescription(localStorage.getItem("description")!);
 		if (localStorage.getItem("theory-questions"))
 			setTheoryQuestions(JSON.parse(localStorage.getItem("theory-questions")!));
 	};
@@ -105,6 +108,7 @@ export default function CreateExam() {
 			if (!storageAvailable("localStorage"))
 				throw new Error("Cannot access storage");
 			localStorage.setItem("exam-name", examName);
+			localStorage.setItem("description", description);
 			if (dueDate) localStorage.setItem("due-date", JSON.stringify(dueDate));
 			if (objectiveQuestions.length > 0)
 				localStorage.setItem(
@@ -127,6 +131,7 @@ export default function CreateExam() {
 			if (!storageAvailable("localStorage"))
 				throw new Error("Cannot access storage");
 			localStorage.removeItem("exam-name");
+			localStorage.removeItem("description");
 			localStorage.removeItem("due-date");
 			localStorage.removeItem("objective-questions");
 			successMesage("Cleared successfully");
@@ -143,8 +148,11 @@ export default function CreateExam() {
 			if (moment(dueDate).isBefore())
 				throw new Error("Your exam due date must be in the future");
 			if (examName === "") throw new Error("You must set a name for this exam");
+			if (description === "")
+				throw new Error("You must set a description for this exam");
 			const payload: Partial<Exam> = {
 				examinerId: id,
+				description: description,
 				name: examName,
 				due: new Date(dueDate).getTime(),
 				objectiveQuestions: objectiveQuestions,
@@ -176,6 +184,8 @@ export default function CreateExam() {
 					</div>
 				) : data ? (
 					<ExaminerInfo
+						description={description}
+						setDescription={setDescription}
 						firstName={data.user.firstName}
 						lastName={data.user.lastName}
 						email={data.user.email}
