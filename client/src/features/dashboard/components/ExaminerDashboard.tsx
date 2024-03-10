@@ -13,6 +13,7 @@ const GET_EXAMINER_DATA = gql`
 		user(id: $id) {
 			examsSet {
 				name
+				description
 				due
 				inviteId
 				examiner {
@@ -34,6 +35,7 @@ type Exam = {
 	name: string;
 	due: Date;
 	inviteId: string;
+	description: string;
 	examiner: {
 		firstName: string;
 		lastName: string;

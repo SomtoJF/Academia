@@ -7,83 +7,64 @@
     gap: 20px
     h2
         font-weight: 600
-    .data-container
-        display: grid
-        grid-template-columns: 1.5fr 1fr
-        column-gap: 5%
-        grid-template-rows: 40vh
-        div:first-child
+        margin: 0px
+    .exam-item-container
+        display: flex
+        flex-direction: column
+        gap: 20px
+        width: 100%
+        overflow-x: hidden
+        article.exam-item
+            width: 840px
+            border: solid 1px App.$outlineColor
+            height: 22vh
             display: grid
-            grid-template-columns: 1fr 1fr
-            grid-template-rows: 1fr 1fr
-            gap: 10px
-            .exam-card
-                box-sizing: border-box
-                padding: 10%
-                display: flex
-                flex-direction: column
-                gap: 10px
+            grid-template-columns: 1fr 2fr 1fr
+            column-gap: 20px
+            row-gap: 10px
+            grid-template-rows: 1fr 45px 30px
+            box-sizing: border-box
+            padding: 15px
+            border-radius: 15px
+            justify-content: space-between
+            h3
+                height: fit-content
+                margin: 0px
+                font-family: 1.2rem
+            figure
+                border-radius: 10px
+                background-color: App.$outlineColor
+                grid-row: 1/4
                 width: 100%
                 height: 100%
-                border: solid 1px App.$outlineColor
-                border-radius: 10px
-                h4
-                    margin: 0px
-                div
-                    font-size: 2rem
-                    font-weight: 600
-                small
-                    font-weight: 300
-                    color: grey
-    #closest-item
-        display: grid
-        grid-template-columns: 1fr 50px
-        grid-template-rows: 50px
-        grid-auto-rows: 50px
-        align-items: center
-        background-color: App.$black
-        color: App.$white
-        border-radius: 15px
-        box-sizing: border-box
-        padding: 20px
-        p
-            margin: 0px
-        // gap: 10%
-        h3
-            font-size: 2rem
-            margin: 0px
-        .examiner
-            display: flex
-            gap: 10px
-            align-items: center
-        &>div
-            grid-column: 1/3
-        &>p
-            grid-column: 1/3
-        &>button
-            width: 30px
-            height: 30px
-            border-radius: 50%
-            background-color: App.$white
-            color: App.$black
-            border: none
-    .show-all-container
-        display: flex
-        justify-content: flex-end
-        align-items: center
-        gap: 20px
-        p
-            cursor: pointer
-            margin: 0px
-            &:hover+button
-                svg
-                    transform: rotate(0deg)
-        button
-            border: none
-            border-radius: 50%
-            color: App.$white
-            background-color: App.$black
-            padding: 10px
-            svg
-                transform: rotate(45deg)
-                transition: 250ms
+                margin: 0px
+                overflow: hidden
+                img
+                    width: 100%
+                    height: 100%
+            p
+                -webkit-box-orient: vertical
+                -webkit-line-clamp: 2
+                overflow: hidden
+                white-space: normal
+                margin: 0px
+                font-size: 0.9rem
+                color: grey
+            a
+                color: App.$black
+                text-decoration: none
+                font-weight: 600
+                background-color: App.$purple
+                border: solid 1px App.$black
+                width: 100px
+                font-size: 0.8rem
+                text-align: center
+                line-height: 30px
+            .date
+                &.title
+                    color: App.$black
+                    // font-size: 0.8rem
+                    font-weight: 700
+                &.time
+                    font-size: 0.9rem
+                    // color: grey

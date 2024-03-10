@@ -1,12 +1,11 @@
 import "./DisplayExams.styles.sass";
-import ExamCard from "./ExamCard";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { ArrowRightOutlined, WalletOutlined } from "@ant-design/icons";
-import CustomAvatar from "../../../components/avatar/CustomAvatar";
 import ErrorBoundary from "../../../components/error/ErrorBoundary.small";
 import { DisplayExamTitles } from "../../../types";
+import { Link, useParams } from "react-router-dom";
+import { Tooltip } from "antd";
+import patternImage from "../../../assets/patternpad.svg";
 
 type props = {
 	title: DisplayExamTitles;
@@ -15,6 +14,7 @@ type props = {
 
 type Exam = {
 	name: string;
+	description: string;
 	due: Date;
 	inviteId: string;
 	examiner: {
@@ -26,28 +26,8 @@ type Exam = {
 };
 
 export default function DisplayExams({ title, exams }: props) {
-	console.log(exams);
-	const [closestDatedItem, setClosestDatedItem] = useState<Exam>(exams[0]);
-	const getClosestDatedItem = () => {
-		let mostRecentItem = exams[0];
-		let smallestTimeDifference = Math.abs(moment().diff(exams[0].due));
+	const { id } = useParams();
 
-		for (let i = 0; i < exams.length; i++) {
-			const itemTimeDifference = Math.abs(moment().diff(exams[i].due));
-			if (itemTimeDifference < smallestTimeDifference) {
-				smallestTimeDifference = itemTimeDifference;
-				mostRecentItem = exams[i];
-			}
-		}
-
-		return mostRecentItem;
-	};
-	useEffect(() => {
-		if (exams[0]) {
-			const closestdatedExam = getClosestDatedItem();
-			setClosestDatedItem(closestdatedExam);
-		}
-	}, []);
 	if (!exams[0]) {
 		return (
 			<ErrorBoundary
@@ -60,43 +40,29 @@ export default function DisplayExams({ title, exams }: props) {
 			/>
 		);
 	}
+
 	return (
 		<section className="exam-display">
 			<h2>{title}</h2>
-			<div className="data-container">
-				<div>
-					{exams.slice(0, 4).map((exam) => (
-						<ExamCard exam={exam} key={uuidv4()} />
-					))}
-				</div>
-				{closestDatedItem && (
-					<div id="closest-item">
-						<h3>{closestDatedItem.name}</h3>
-						<button type="button">
-							<WalletOutlined />
-						</button>
-						<div className="examiner">
-							<CustomAvatar
-								firstName={closestDatedItem.examiner.firstName}
-								lastName={closestDatedItem.examiner.lastName}
-								profilePicture={closestDatedItem.examiner.profilePicture}
-							/>
-							<p>
-								{`${closestDatedItem.examiner.firstName} ${closestDatedItem.examiner.lastName}`}
-							</p>
+			<div className="exam-item-container">
+				{exams.map((exam) => (
+					<article className="exam-item" key={uuidv4()}>
+						<figure>
+							<img src={patternImage} alt="random pattern image" />
+						</figure>
+						<h3>{exam.name}</h3>
+						<div className="date title">Due</div>
+						<Tooltip title={exam.description}>
+							<p>{exam.description}</p>
+						</Tooltip>
+						<div className="date time">
+							{moment(exam.due).format("MMMM D, YYYY")} <br />
+							<b>At: </b>
+							{moment(exam.due).format("hh: mma")}
 						</div>
-						<small className="due">
-							<b>Due at: </b>
-							{moment(closestDatedItem.due).format("HH:mm MMMM DD YYYY")}
-						</small>
-					</div>
-				)}
-			</div>
-			<div className="show-all-container">
-				<p>Show all</p>
-				<button type="button" aria-roledescription="button">
-					<ArrowRightOutlined />
-				</button>
+						<Link to={`/user/${id}/exam`}>Start</Link>
+					</article>
+				))}
 			</div>
 		</section>
 	);
