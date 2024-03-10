@@ -14,6 +14,7 @@ const GET_EXAMINER_DATA = gql`
 			examsTaken {
 				name
 				due
+				description
 				inviteId
 				examiner {
 					firstName
@@ -34,6 +35,7 @@ type Exam = {
 	name: string;
 	due: Date;
 	inviteId: string;
+	description: string;
 	examiner: {
 		firstName: string;
 		lastName: string;
