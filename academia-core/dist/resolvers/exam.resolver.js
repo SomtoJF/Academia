@@ -77,9 +77,10 @@ export async function updateExam({ id, edits }) {
         await Exam.updateOne({ _id: id }, { $push: { candidatesId: { $each: [edits.candidatesId] } } });
     }
     const exam = await Exam.findById(id);
-    if (edits.name) {
+    if (edits.name)
         exam.name = edits.name;
-        await exam.save();
-    }
+    if (edits.description)
+        exam.description = edits.description;
+    await exam.save();
     return await Exam.findById(id);
 }

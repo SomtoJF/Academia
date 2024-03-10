@@ -1,6 +1,7 @@
 export interface ExamInterface {
 	_id: string;
 	inviteId: string;
+	description: string;
 	name: string;
 	examinerId: string;
 	candidatesId: string[];

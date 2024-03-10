@@ -23,6 +23,7 @@ const ExamModel = new mongoose.Schema<ExamInterface>(
 			type: String,
 			required: true,
 		},
+		description: { type: String, required: true },
 		inviteId: {
 			type: String,
 			required: true,

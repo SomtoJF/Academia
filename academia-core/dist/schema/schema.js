@@ -29,6 +29,7 @@ type Exam {
   _id: ID!
   inviteId: ID!
   name: String!
+  description: String!
   examinerId: ID!
   examiner: User!
   candidates: [User!]
@@ -82,6 +83,7 @@ input TheoryInput {
 
 input CreateExamArgs {
   name: String!
+  description: String!
   examinerId: ID!
   objectiveQuestions: [ObjInput!]
   theoryQuestions: [TheoryInput!]
@@ -91,6 +93,7 @@ input CreateExamArgs {
 
 input UpdateExamArgs {
   name: String
+  description: String
   candidatesId: ID
   submit: ID
 }

@@ -85,10 +85,9 @@ export async function updateExam({ id, edits }: UpdateExamInterface) {
 		);
 	}
 	const exam = await Exam.findById(id);
-	if (edits.name) {
-		exam.name = edits.name;
-		await exam.save();
-	}
+	if (edits.name) exam.name = edits.name;
+	if (edits.description) exam.description = edits.description;
+	await exam.save();
 	return await Exam.findById(id);
 }
 
@@ -110,6 +109,7 @@ export interface UpdateExamInterface {
 	id: string;
 	edits: {
 		name?: string;
+		description?: string;
 		candidatesId?: string;
 		submit?: string;
 	};

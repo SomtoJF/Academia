@@ -14,6 +14,7 @@ const ExamModel = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description: { type: String, required: true },
     inviteId: {
         type: String,
         required: true,
