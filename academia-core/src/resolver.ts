@@ -17,6 +17,7 @@ import {
 	UpdateUserInterface,
 	createUser,
 	deleteUser,
+	getExamsRegisteredFor,
 	getExamsSet,
 	getExamsTaken,
 	getUser,
@@ -42,6 +43,8 @@ const resolvers = {
 		examsTaken: async (parent: UserInterface) =>
 			await getExamsTaken(parent._id),
 		examsSet: async (parent: UserInterface) => await getExamsSet(parent._id),
+		examsRegisteredFor: async (parent: UserInterface) =>
+			await getExamsRegisteredFor(parent),
 	},
 	Exam: {
 		candidates: async (parent: ExamInterface) =>

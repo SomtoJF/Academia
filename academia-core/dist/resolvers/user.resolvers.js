@@ -28,6 +28,12 @@ export async function getExamsTaken(userId) {
         throw error;
     }
 }
+export async function getExamsRegisteredFor(parent) {
+    // const parent = await User.findById(userId);
+    if (parent.role !== "STUDENT")
+        throw new Error("This entity cannot register for exams.");
+    return Exam.find({ candidatesId: { $in: parent._id } });
+}
 export async function getExamsSet(userId) {
     try {
         const parent = await User.findById(userId);

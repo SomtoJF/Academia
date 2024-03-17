@@ -17,6 +17,7 @@ type User {
   role: Role!
   examsTakenId: [ID!]
   examsTaken: [Exam!]
+  examsRegisteredFor: [Exam!]
   examsSetId: [ID!]
   examsSet: [Exam!]
   createdAt: Date!

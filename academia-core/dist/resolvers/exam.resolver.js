@@ -72,9 +72,14 @@ export async function updateExam({ id, edits }) {
     }
     await Exam.updateOne({ _id: id }, { $push: { submittedIds: { $each: [edits.submit] } } });
     if (edits.candidatesId) {
-        if (thisExam.candidatesId.includes(edits.candidatesId))
+        const thisCandidate = await User.findById(edits.candidatesId);
+        if (thisCandidate.role !== "STUDENT")
+            throw new Error("Only students can register to take exams");
+        if (thisExam.candidatesId.includes(thisCandidate.id))
             throw new Error("This user is already registered for the exam");
         await Exam.updateOne({ _id: id }, { $push: { candidatesId: { $each: [edits.candidatesId] } } });
+        thisCandidate.examsTakenId = thisCandidate.examsSetId.concat(thisExam.id);
+        await thisCandidate.save();
     }
     const exam = await Exam.findById(id);
     if (edits.name)
