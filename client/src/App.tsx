@@ -52,11 +52,11 @@ const client = new ApolloClient({
 
 function App() {
 	return (
-		<AuthProvider>
-			<ApolloProvider client={client}>
+		<ApolloProvider client={client}>
+			<AuthProvider>
 				<RouterProvider router={router} />
-			</ApolloProvider>
-		</AuthProvider>
+			</AuthProvider>
+		</ApolloProvider>
 	);
 }
 
