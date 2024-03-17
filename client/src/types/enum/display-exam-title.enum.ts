@@ -1,4 +1,4 @@
 export enum DisplayExamTitles {
-	UPCOMING = "Upcoming Exams",
+	OUTSTANDING = "Outstanding Exams",
 	CONCLUDED = "Concluded Exams",
 }

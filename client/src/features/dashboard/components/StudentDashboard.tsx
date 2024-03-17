@@ -11,6 +11,18 @@ import Overview from "./Overview";
 const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
 		user(id: $id) {
+			examsRegisteredFor {
+				name
+				due
+				description
+				inviteId
+				examiner {
+					firstName
+					lastName
+					profilePicture
+					createdAt
+				}
+			}
 			examsTaken {
 				name
 				due
@@ -47,20 +59,23 @@ type Exam = {
 export default function StudentDashboard({ userId }: props) {
 	const [concludedExams, setConcludedExams] = useState<Array<Exam>>([]);
 	const [upcomingExams, setUpcomingExams] = useState<Array<Exam>>([]);
+	const [examsTaken, setExamsTaken] = useState<Array<Exam>>([]);
 	// two sections: Upcoming Exams and Past Exams
 	const { loading, refetch, data } = useQuery(GET_EXAMINER_DATA, {
 		variables: { id: userId },
 		onCompleted(data) {
+			console.log(data);
 			setConcludedExams(
-				data.user.examsTaken.filter((exam: any) => {
+				data.user.examsRegisteredFor.filter((exam: any) => {
 					if (moment(exam.due).isBefore()) return exam;
 				})
 			);
 			setUpcomingExams(
-				data.user.examsTaken.filter((exam: any) => {
+				data.user.examsRegisteredFor.filter((exam: any) => {
 					if (moment(exam.due).isAfter()) return exam;
 				})
 			);
+			setExamsTaken(data.user.examsTaken);
 		},
 	});
 	return (
@@ -77,9 +92,10 @@ export default function StudentDashboard({ userId }: props) {
 					<Overview
 						upcomingExams={upcomingExams}
 						concludedExams={concludedExams}
+						submittedExams={examsTaken}
 					/>
 					<DisplayExams
-						title={DisplayExamTitles.UPCOMING}
+						title={DisplayExamTitles.OUTSTANDING}
 						key={uuidv4()}
 						exams={upcomingExams}
 					/>
