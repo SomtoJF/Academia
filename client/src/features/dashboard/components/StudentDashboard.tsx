@@ -12,6 +12,7 @@ const GET_EXAMINER_DATA = gql`
 	query getExaminerData($id: ID!) {
 		user(id: $id) {
 			examsRegisteredFor {
+				_id
 				name
 				due
 				description
@@ -24,6 +25,7 @@ const GET_EXAMINER_DATA = gql`
 				}
 			}
 			examsTaken {
+				_id
 				name
 				due
 				description
@@ -44,6 +46,7 @@ interface props {
 }
 
 type Exam = {
+	_id: string;
 	name: string;
 	due: Date;
 	inviteId: string;

@@ -13,6 +13,7 @@ type props = {
 };
 
 type Exam = {
+	_id: string;
 	name: string;
 	description: string;
 	due: Date;
@@ -33,8 +34,8 @@ export default function DisplayExams({ title, exams }: props) {
 			<ErrorBoundary
 				loading={false}
 				message={
-					title == DisplayExamTitles.UPCOMING
-						? "You have no upcoming exams"
+					title == DisplayExamTitles.OUTSTANDING
+						? "You have no outstanding exams"
 						: "No exams have been concluded yet"
 				}
 			/>
@@ -60,7 +61,7 @@ export default function DisplayExams({ title, exams }: props) {
 							<b>At: </b>
 							{moment(exam.due).format("hh: mma")}
 						</div>
-						<Link to={`/user/${id}/exam`}>Start</Link>
+						<Link to={`/user/${id}/exam/${exam._id}`}>Start</Link>
 					</article>
 				))}
 			</div>

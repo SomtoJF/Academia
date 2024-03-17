@@ -33,7 +33,7 @@ const router = createBrowserRouter([
 			{ path: "dashboard", element: <Dashboard /> },
 			{ path: "account", element: <Account /> },
 			{ path: "schedule", element: <Schedule /> },
-			{ path: "exam", element: <Exam /> },
+			{ path: "exam/:examId", element: <Exam /> },
 			{
 				path: "create/exam",
 				element: <CreateExam />,
