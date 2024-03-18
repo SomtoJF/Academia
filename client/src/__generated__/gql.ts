@@ -16,7 +16,6 @@ const documents = {
     "\n\tquery getExam($inviteId: ID!) {\n\t\texamByInvite(inviteId: $inviteId) {\n\t\t\t_id\n\t\t\tinviteId\n\t\t\tname\n\t\t\tdue\n\t\t\tcandidates {\n\t\t\t\t_id\n\t\t\t}\n\t\t\texaminer {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t\temail\n\t\t\t\tprofilePicture\n\t\t\t}\n\t\t\tinviteId\n\t\t}\n\t}\n": types.GetExamDocument,
     "\n\tmutation ExamRegistrationMutation(\n\t\t$updateExamId: ID!\n\t\t$edits: UpdateExamArgs!\n\t) {\n\t\tupdateExam(id: $updateExamId, edits: $edits) {\n\t\t\tcandidatesId\n\t\t}\n\t}\n": types.ExamRegistrationMutationDocument,
     "\n\tquery userQuery($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tprofilePicture\n\t\t}\n\t}\n": types.UserQueryDocument,
-    "\n\tquery fetchUserRole($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\trole\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n": types.FetchUserRoleDocument,
     "\n\tmutation UpdateUserInfoMutation($updateUserId: ID!, $edits: UpdateUserArgs!) {\n\t\tupdateUser(id: $updateUserId, edits: $edits) {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n": types.UpdateUserInfoMutationDocument,
     "\n\tquery ExaminerExams($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\texamsSet {\n\t\t\t\t_id\n\t\t\t\tname\n\t\t\t\tdescription\n\t\t\t\tdue\n\t\t\t\tinviteId\n\t\t\t\texaminer {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tprofilePicture\n\t\t\t\t\tcreatedAt\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.ExaminerExamsDocument,
     "\n\tquery getExaminerData($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\texamsRegisteredFor {\n\t\t\t\t_id\n\t\t\t\tname\n\t\t\t\tdue\n\t\t\t\tdescription\n\t\t\t\tinviteId\n\t\t\t\texaminer {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tprofilePicture\n\t\t\t\t\tcreatedAt\n\t\t\t\t}\n\t\t\t}\n\t\t\texamsTaken {\n\t\t\t\t_id\n\t\t\t\tname\n\t\t\t\tdue\n\t\t\t\tdescription\n\t\t\t\tinviteId\n\t\t\t\texaminer {\n\t\t\t\t\tfirstName\n\t\t\t\t\tlastName\n\t\t\t\t\tprofilePicture\n\t\t\t\t\tcreatedAt\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.GetExaminerDataDocument,
@@ -55,10 +54,6 @@ export function gql(source: "\n\tmutation ExamRegistrationMutation(\n\t\t$update
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery userQuery($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tprofilePicture\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery userQuery($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\tprofilePicture\n\t\t}\n\t}\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n\tquery fetchUserRole($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\trole\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery fetchUserRole($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\trole\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
