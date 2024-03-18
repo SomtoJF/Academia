@@ -57,6 +57,9 @@ export default function SearchResultModal({ open, setOpen, exam }: props) {
 			const response = await registerForExam();
 			success("Registration successful");
 			console.log(response);
+			setTimeout(() => {
+				window.location.reload();
+			}, 1000);
 		} catch (err: any) {
 			error(err.message);
 			throw err;
