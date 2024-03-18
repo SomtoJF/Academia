@@ -10,7 +10,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import studyIllustration from "../../assets/study.svg";
 
 const FETCH_USER_ROLE = gql`
-	query fetchUserRole($id: ID!) {
+	query fetchUserNames($id: ID!) {
 		user(id: $id) {
 			role
 			firstName

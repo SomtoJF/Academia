@@ -33,7 +33,10 @@ type examiner = {
 };
 
 const EXAM_REGISTRATION_MUTATION = gql`
-	mutation Mutation($updateExamId: ID!, $edits: UpdateExamArgs!) {
+	mutation ExamRegistrationMutation(
+		$updateExamId: ID!
+		$edits: UpdateExamArgs!
+	) {
 		updateExam(id: $updateExamId, edits: $edits) {
 			candidatesId
 		}

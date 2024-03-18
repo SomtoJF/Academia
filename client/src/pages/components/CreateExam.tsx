@@ -12,7 +12,7 @@ import TheorySection from "../../features/create-exam/components/TheorySection";
 import { TheoryQuestion } from "../../types/interface/theory-question.interface";
 import moment from "moment";
 const FETCH_USER_DATA = gql`
-	query fetchUserRole($id: ID!) {
+	query fetchUserInformation($id: ID!) {
 		user(id: $id) {
 			firstName
 			lastName
@@ -24,7 +24,7 @@ const FETCH_USER_DATA = gql`
 `;
 
 const CREATE_EXAM_MUTATION = gql`
-	mutation Mutation($edits: CreateExamArgs!) {
+	mutation CreateExamMutation($edits: CreateExamArgs!) {
 		createExam(edits: $edits) {
 			_id
 			inviteId

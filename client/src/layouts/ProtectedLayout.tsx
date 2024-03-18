@@ -6,7 +6,7 @@ import { Spin } from "antd";
 import NavSearchBar from "../components/nav-searchbar/NavSearchBar";
 
 const FETCH_USER_ROLE = gql`
-	query fetchUserRole($id: ID!) {
+	query UserRole($id: ID!) {
 		user(id: $id) {
 			role
 		}

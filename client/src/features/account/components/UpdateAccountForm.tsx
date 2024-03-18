@@ -12,7 +12,7 @@ interface Props {
 }
 
 const UPDATE_USER_MUTATION = gql`
-	mutation Mutation($updateUserId: ID!, $edits: UpdateUserArgs!) {
+	mutation UpdateUserInfoMutation($updateUserId: ID!, $edits: UpdateUserArgs!) {
 		updateUser(id: $updateUserId, edits: $edits) {
 			firstName
 			lastName

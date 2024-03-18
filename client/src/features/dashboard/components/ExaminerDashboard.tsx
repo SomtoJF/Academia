@@ -9,9 +9,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Overview from "./Overview";
 
 const GET_EXAMINER_DATA = gql`
-	query getExaminerData($id: ID!) {
+	query ExaminerExams($id: ID!) {
 		user(id: $id) {
 			examsSet {
+				_id
 				name
 				description
 				due
@@ -32,6 +33,7 @@ interface props {
 }
 
 type Exam = {
+	_id: string;
 	name: string;
 	due: Date;
 	inviteId: string;
@@ -79,7 +81,7 @@ export default function ExaminerDashboard({ userId }: props) {
 						concludedExams={concludedExams}
 					/>
 					<DisplayExams
-						title={DisplayExamTitles.UPCOMING}
+						title={DisplayExamTitles.OUTSTANDING}
 						key={uuidv4()}
 						exams={upcomingExams}
 					/>
