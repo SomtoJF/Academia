@@ -14,6 +14,7 @@ import CreateExam from "./pages/components/CreateExam";
 import ErrorPage from "./pages/components/ErrorPage";
 import FAQs from "./pages/components/FAQs";
 import Exam from "./pages/components/Exam";
+import Result from "./pages/components/Result";
 
 const router = createBrowserRouter([
 	{
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
 			{ path: "dashboard", element: <Dashboard /> },
 			{ path: "account", element: <Account /> },
 			{ path: "schedule", element: <Schedule /> },
+			{ path: "result", element: <Result /> },
 			{ path: "exam/:examId", element: <Exam /> },
 			{
 				path: "create/exam",

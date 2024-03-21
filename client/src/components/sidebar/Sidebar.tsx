@@ -90,7 +90,7 @@ export default function Sidebar() {
 						</NavLink>
 					</li>
 					<li onClick={collapseSideBar}>
-						<NavLink to={"/hsjs"}>
+						<NavLink to={`/user/${id}/result`}>
 							<DotChartOutlined /> <span className="link-text">Results</span>
 						</NavLink>
 					</li>
