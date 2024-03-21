@@ -3,11 +3,13 @@ import { Divider, Radio, RadioChangeEvent, Space } from "antd";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import QuestionPicker from "../../features/exam/QuestionPicker";
-import { LoadingOutlined } from "@ant-design/icons";
+import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import ErrorBoundary from "../../components/error/ErrorBoundary.small";
 import { v4 as uuidv4 } from "uuid";
 import "../styles/Exam.styles.sass";
 import { gql } from "../../__generated__";
+import moment from "moment";
+import gsap from "gsap";
 
 const FETCH_EXAM = gql(`
 	query fetchExam($examId: ID!) {
@@ -57,6 +59,13 @@ export default function Exam() {
 			}
 		},
 	});
+
+	const closeNoticeBar = () => {
+		gsap.to("#exam-notice", {
+			opacity: 0,
+			display: "none",
+		});
+	};
 
 	const handleExamSubmit = async () => {
 		if (studentObjectiveAnswers.length < 1 || studentTheoryAnswers.length < 1)
@@ -111,7 +120,26 @@ export default function Exam() {
 	if (data && data.exam)
 		return (
 			<div id="exam-page">
+				<div id="exam-notice">
+					<p>
+						Note that once the due time has passed, this exam can no longer be
+						submitted
+					</p>
+					<button type="button" onClick={closeNoticeBar}>
+						<CloseOutlined />
+					</button>
+				</div>
 				<h1>{data.exam.name}</h1>
+				<p>{data.exam.description}</p>
+				<p id="exam-examiner-data">
+					<b>Uploaded By:</b>{" "}
+					{`${data.exam.examiner.firstName} ${data.exam.examiner.lastName}`}
+				</p>
+				<p>
+					<b>Due:</b>{" "}
+					{moment(data.exam.due).format("dddd, Do MMMM, YYYY. hh:mma")}
+				</p>
+				<Divider />
 				{data.exam.objectiveQuestions && (
 					<section className="question-container">
 						<h2>Multiple-Choice Questions</h2>
