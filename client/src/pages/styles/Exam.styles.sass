@@ -15,6 +15,21 @@
         flex-direction: column
         gap: 5vh
         min-height: 50vh
+        .control-buttons-container
+            display: flex
+            gap: 20px
+            button
+                width: 100px
+                height: 35px
+                background-color: App.$green
+                color: App.$white
+                border-radius: 20px
+                border: none
+                &:active
+                    color: App.$black
+                &:disabled
+                    background-color: App.$outlineColor
+                    color: App.$black
     #submit-exam
         padding: 15px 25px
         border-radius: 0px

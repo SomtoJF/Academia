@@ -69,6 +69,21 @@ export default function Exam() {
 		});
 	};
 
+	const switchToNextQuestion = (
+		currentQuestionIndex: number,
+		questionSwitchCallback: (newQuestionIndex: number) => void
+	) => {
+		questionSwitchCallback(currentQuestionIndex + 1);
+	};
+
+	const switchToPreviousQuestion = (
+		currentQuestionIndex: number,
+		questionSwitchCallback: (newQuestionIndex: number) => void
+	) => {
+		if (currentQuestionIndex > 0)
+			questionSwitchCallback(currentQuestionIndex - 1);
+	};
+
 	if (loading)
 		return (
 			<div
@@ -142,6 +157,35 @@ export default function Exam() {
 								</Space>
 							</Radio.Group>
 						</div>
+						<div className="control-buttons-container">
+							<button
+								type="button"
+								disabled={activeObjectiveQuestionIndex <= 0}
+								onClick={() => {
+									switchToPreviousQuestion(
+										activeObjectiveQuestionIndex,
+										setActiveObjectiveQuestionIndex
+									);
+								}}
+							>
+								Previous
+							</button>
+							<button
+								type="button"
+								disabled={
+									activeObjectiveQuestionIndex >=
+									data.exam.objectiveQuestions.length - 1
+								}
+								onClick={() => {
+									switchToNextQuestion(
+										activeObjectiveQuestionIndex,
+										setActiveObjectiveQuestionIndex
+									);
+								}}
+							>
+								Next
+							</button>
+						</div>
 					</section>
 				)}
 				<Divider />
@@ -163,6 +207,34 @@ export default function Exam() {
 							cols={30}
 							rows={10}
 						/>
+						<div className="control-buttons-container">
+							<button
+								type="button"
+								disabled={activeTheoryQuestion <= 0}
+								onClick={() => {
+									switchToPreviousQuestion(
+										activeTheoryQuestion,
+										setActiveTheoryQuestion
+									);
+								}}
+							>
+								Previous
+							</button>
+							<button
+								type="button"
+								disabled={
+									activeTheoryQuestion >= data.exam.theoryQuestions.length - 1
+								}
+								onClick={() => {
+									switchToNextQuestion(
+										activeTheoryQuestion,
+										setActiveTheoryQuestion
+									);
+								}}
+							>
+								Next
+							</button>
+						</div>
 					</section>
 				)}
 				<button type="button" id="submit-exam" onClick={handleExamSubmit}>
