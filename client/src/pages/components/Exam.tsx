@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { Divider, Radio, RadioChangeEvent, Space } from "antd";
+import { Divider, Radio, RadioChangeEvent, Space, message } from "antd";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import QuestionPicker from "../../features/exam/QuestionPicker";
@@ -34,6 +34,7 @@ const FETCH_EXAM = gql(`
 
 export default function Exam() {
 	const { examId } = useParams();
+	const [messageApi, contextHolder] = message.useMessage();
 	const [activeObjectiveQuestionIndex, setActiveObjectiveQuestionIndex] =
 		useState(0);
 	const [activeTheoryQuestion, setActiveTheoryQuestion] = useState(0);
@@ -60,6 +61,20 @@ export default function Exam() {
 		},
 	});
 
+	const success = (message: string) => {
+		messageApi.open({
+			type: "success",
+			content: message,
+		});
+	};
+
+	const errorMessage = (message: string) => {
+		messageApi.open({
+			type: "error",
+			content: message,
+		});
+	};
+
 	const closeNoticeBar = () => {
 		gsap.to("#exam-notice", {
 			opacity: 0,
@@ -68,14 +83,20 @@ export default function Exam() {
 	};
 
 	const handleExamSubmit = async () => {
-		if (studentObjectiveAnswers.length < 1 || studentTheoryAnswers.length < 1)
-			throw new Error("You must answer all questions");
-		studentObjectiveAnswers.forEach((answer) => {
-			if (answer == undefined) throw new Error("You must answer all questions");
-		});
-		studentTheoryAnswers.forEach((answer) => {
-			if (answer == undefined) throw new Error("You must answer all questions");
-		});
+		try {
+			if (studentObjectiveAnswers.length < 1 || studentTheoryAnswers.length < 1)
+				throw new Error("You must answer all questions");
+			studentObjectiveAnswers.forEach((answer) => {
+				if (!answer) throw new Error("You must answer all questions");
+			});
+			studentTheoryAnswers.forEach((answer) => {
+				if (!answer) throw new Error("You must answer all questions");
+			});
+			success("submitted successfully");
+		} catch (err: any) {
+			errorMessage(err.message);
+			throw err;
+		}
 	};
 
 	const switchToNextQuestion = (
@@ -119,155 +140,158 @@ export default function Exam() {
 
 	if (data && data.exam)
 		return (
-			<div id="exam-page">
-				<div id="exam-notice">
-					<p>
-						Note that once the due time has passed, this exam can no longer be
-						submitted
+			<>
+				{contextHolder}
+				<div id="exam-page">
+					<div id="exam-notice">
+						<p>
+							Note that once the due time has passed, this exam can no longer be
+							submitted
+						</p>
+						<button type="button" onClick={closeNoticeBar}>
+							<CloseOutlined />
+						</button>
+					</div>
+					<h1>{data.exam.name}</h1>
+					<p>{data.exam.description}</p>
+					<p id="exam-examiner-data">
+						<b>Uploaded By:</b>{" "}
+						{`${data.exam.examiner.firstName} ${data.exam.examiner.lastName}`}
 					</p>
-					<button type="button" onClick={closeNoticeBar}>
-						<CloseOutlined />
+					<p>
+						<b>Due:</b>{" "}
+						{moment(data.exam.due).format("dddd, Do MMMM, YYYY. hh:mma")}
+					</p>
+					<Divider />
+					{data.exam.objectiveQuestions && (
+						<section className="question-container">
+							<h2>Multiple-Choice Questions</h2>
+							<QuestionPicker
+								questions={data.exam.objectiveQuestions}
+								setActiveQuestion={setActiveObjectiveQuestionIndex}
+								activeQuestion={activeObjectiveQuestionIndex}
+								key={uuidv4()}
+							/>
+							<div id="obj-question">
+								<p>
+									{
+										data.exam.objectiveQuestions[activeObjectiveQuestionIndex]
+											.question
+									}
+								</p>
+								<Radio.Group
+									value={studentObjectiveAnswers[activeObjectiveQuestionIndex]}
+								>
+									<Space direction="vertical">
+										{data.exam.objectiveQuestions[
+											activeObjectiveQuestionIndex
+										].options.map((option, index) => (
+											<Radio
+												value={index}
+												key={uuidv4()}
+												onChange={(e: RadioChangeEvent) => {
+													console.log("radio checked", e.target.value);
+													const updatedAnswers = [
+														...studentObjectiveAnswers.slice(
+															0,
+															activeObjectiveQuestionIndex
+														),
+														index,
+														...studentObjectiveAnswers.slice(index + 1),
+													];
+													setStudentObjectiveAnswers(updatedAnswers);
+												}}
+											>
+												{option}
+											</Radio>
+										))}
+									</Space>
+								</Radio.Group>
+							</div>
+							<div className="control-buttons-container">
+								<button
+									type="button"
+									disabled={activeObjectiveQuestionIndex <= 0}
+									onClick={() => {
+										switchToPreviousQuestion(
+											activeObjectiveQuestionIndex,
+											setActiveObjectiveQuestionIndex
+										);
+									}}
+								>
+									Previous
+								</button>
+								<button
+									type="button"
+									disabled={
+										activeObjectiveQuestionIndex >=
+										data.exam.objectiveQuestions.length - 1
+									}
+									onClick={() => {
+										switchToNextQuestion(
+											activeObjectiveQuestionIndex,
+											setActiveObjectiveQuestionIndex
+										);
+									}}
+								>
+									Next
+								</button>
+							</div>
+						</section>
+					)}
+					<Divider />
+
+					{data.exam.theoryQuestions && (
+						<section className="question-container">
+							<h2>Theory Questions</h2>
+							<QuestionPicker
+								questions={data.exam.theoryQuestions}
+								setActiveQuestion={setActiveTheoryQuestion}
+								activeQuestion={activeTheoryQuestion}
+								key={uuidv4()}
+							/>
+							<p>{data.exam.theoryQuestions[activeTheoryQuestion].question}</p>
+							<textarea
+								name={data.exam.theoryQuestions[activeTheoryQuestion].question}
+								id={data.exam.theoryQuestions[activeTheoryQuestion].question}
+								placeholder="Type in your answer here..."
+								cols={30}
+								rows={10}
+							/>
+							<div className="control-buttons-container">
+								<button
+									type="button"
+									disabled={activeTheoryQuestion <= 0}
+									onClick={() => {
+										switchToPreviousQuestion(
+											activeTheoryQuestion,
+											setActiveTheoryQuestion
+										);
+									}}
+								>
+									Previous
+								</button>
+								<button
+									type="button"
+									disabled={
+										activeTheoryQuestion >= data.exam.theoryQuestions.length - 1
+									}
+									onClick={() => {
+										switchToNextQuestion(
+											activeTheoryQuestion,
+											setActiveTheoryQuestion
+										);
+									}}
+								>
+									Next
+								</button>
+							</div>
+						</section>
+					)}
+					<button type="button" id="submit-exam" onClick={handleExamSubmit}>
+						Submit Exam
 					</button>
 				</div>
-				<h1>{data.exam.name}</h1>
-				<p>{data.exam.description}</p>
-				<p id="exam-examiner-data">
-					<b>Uploaded By:</b>{" "}
-					{`${data.exam.examiner.firstName} ${data.exam.examiner.lastName}`}
-				</p>
-				<p>
-					<b>Due:</b>{" "}
-					{moment(data.exam.due).format("dddd, Do MMMM, YYYY. hh:mma")}
-				</p>
-				<Divider />
-				{data.exam.objectiveQuestions && (
-					<section className="question-container">
-						<h2>Multiple-Choice Questions</h2>
-						<QuestionPicker
-							questions={data.exam.objectiveQuestions}
-							setActiveQuestion={setActiveObjectiveQuestionIndex}
-							activeQuestion={activeObjectiveQuestionIndex}
-							key={uuidv4()}
-						/>
-						<div id="obj-question">
-							<p>
-								{
-									data.exam.objectiveQuestions[activeObjectiveQuestionIndex]
-										.question
-								}
-							</p>
-							<Radio.Group
-								value={studentObjectiveAnswers[activeObjectiveQuestionIndex]}
-							>
-								<Space direction="vertical">
-									{data.exam.objectiveQuestions[
-										activeObjectiveQuestionIndex
-									].options.map((option, index) => (
-										<Radio
-											value={index}
-											key={uuidv4()}
-											onChange={(e: RadioChangeEvent) => {
-												console.log("radio checked", e.target.value);
-												const updatedAnswers = [
-													...studentObjectiveAnswers.slice(
-														0,
-														activeObjectiveQuestionIndex
-													),
-													index,
-													...studentObjectiveAnswers.slice(index + 1),
-												];
-												setStudentObjectiveAnswers(updatedAnswers);
-											}}
-										>
-											{option}
-										</Radio>
-									))}
-								</Space>
-							</Radio.Group>
-						</div>
-						<div className="control-buttons-container">
-							<button
-								type="button"
-								disabled={activeObjectiveQuestionIndex <= 0}
-								onClick={() => {
-									switchToPreviousQuestion(
-										activeObjectiveQuestionIndex,
-										setActiveObjectiveQuestionIndex
-									);
-								}}
-							>
-								Previous
-							</button>
-							<button
-								type="button"
-								disabled={
-									activeObjectiveQuestionIndex >=
-									data.exam.objectiveQuestions.length - 1
-								}
-								onClick={() => {
-									switchToNextQuestion(
-										activeObjectiveQuestionIndex,
-										setActiveObjectiveQuestionIndex
-									);
-								}}
-							>
-								Next
-							</button>
-						</div>
-					</section>
-				)}
-				<Divider />
-
-				{data.exam.theoryQuestions && (
-					<section className="question-container">
-						<h2>Theory Questions</h2>
-						<QuestionPicker
-							questions={data.exam.theoryQuestions}
-							setActiveQuestion={setActiveTheoryQuestion}
-							activeQuestion={activeTheoryQuestion}
-							key={uuidv4()}
-						/>
-						<p>{data.exam.theoryQuestions[activeTheoryQuestion].question}</p>
-						<textarea
-							name={data.exam.theoryQuestions[activeTheoryQuestion].question}
-							id={data.exam.theoryQuestions[activeTheoryQuestion].question}
-							placeholder="Type in your answer here..."
-							cols={30}
-							rows={10}
-						/>
-						<div className="control-buttons-container">
-							<button
-								type="button"
-								disabled={activeTheoryQuestion <= 0}
-								onClick={() => {
-									switchToPreviousQuestion(
-										activeTheoryQuestion,
-										setActiveTheoryQuestion
-									);
-								}}
-							>
-								Previous
-							</button>
-							<button
-								type="button"
-								disabled={
-									activeTheoryQuestion >= data.exam.theoryQuestions.length - 1
-								}
-								onClick={() => {
-									switchToNextQuestion(
-										activeTheoryQuestion,
-										setActiveTheoryQuestion
-									);
-								}}
-							>
-								Next
-							</button>
-						</div>
-					</section>
-				)}
-				<button type="button" id="submit-exam" onClick={handleExamSubmit}>
-					Submit Exam
-				</button>
-			</div>
+			</>
 		);
 }
