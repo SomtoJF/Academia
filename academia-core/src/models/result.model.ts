@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ResultStatus, Result as ResultType } from "./types";
+import { ResultStatus, Result as ResultType } from "./types/result.types.js";
 
 const ResultModel = new mongoose.Schema<ResultType>(
 	{
@@ -9,10 +9,15 @@ const ResultModel = new mongoose.Schema<ResultType>(
 		theoryAnswers: { type: [String], required: false },
 		totalQuestions: { type: Number, required: true },
 		score: { type: Number, required: false },
-		status: { enum: ResultStatus, required: true },
+		status: {
+			type: String,
+			enum: Object.values(ResultStatus),
+			required: true,
+			default: ResultStatus.PENDING,
+		},
 	},
 	{ timestamps: true }
 );
 
-const Result = mongoose.model("Result", ResultModel, "exams");
+const Result = mongoose.model("Result", ResultModel, "results");
 export default Result;

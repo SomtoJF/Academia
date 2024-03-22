@@ -7,6 +7,12 @@ enum Role {
   EXAMINER
 }
 
+enum ResultStatus{
+  SUCCESS
+  PENDING
+  FAILED
+}
+
 
 type User {
   _id: ID!
@@ -53,6 +59,33 @@ type ObjQuestion {
 type TheoryQuestion {
   question: String!
   answers: [String!]!
+}
+
+type Result{
+  _id: ID!
+  examId: ID!
+  exam: Exam!
+  candidate: User!
+  candidateId: ID!
+  objectiveAnswers: [Int!]
+  theoryAnswers: [String!]
+  totalQuestions: Int!
+  score: Int
+  status: ResultStatus!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+input CreateResultArgs{
+  examId: ID!
+  candidateId: ID!
+  objectiveAnswers: [Int!]
+  theoryAnswers: [String!]
+}
+
+input UpdateResultArgs{
+  score: Int
+  status: ResultStatus!
 }
 
 input UpdateUserArgs {
@@ -107,6 +140,9 @@ type Mutation {
   updateExam(id: ID!, edits: UpdateExamArgs!): Exam
   createExam(edits: CreateExamArgs!): Exam
   deleteExam(id: ID!): Exam
+
+  createResult(edits: CreateResultArgs!): Result
+  updateResult(id: ID!, edits: UpdateResultArgs!): Result
 }
 
 type Query {
@@ -114,5 +150,8 @@ type Query {
 
   exam(id: ID!): Exam
   examByInvite(inviteId: ID!) : Exam
+
+  results(candidateId: ID!) : [Result]
+  result(resultId: ID!) : Result
 }`;
 export default typeDefs;

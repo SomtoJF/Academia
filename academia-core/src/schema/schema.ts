@@ -64,6 +64,8 @@ type TheoryQuestion {
 type Result{
   _id: ID!
   examId: ID!
+  exam: Exam!
+  candidate: User!
   candidateId: ID!
   objectiveAnswers: [Int!]
   theoryAnswers: [String!]
@@ -82,9 +84,6 @@ input CreateResultArgs{
 }
 
 input UpdateResultArgs{
-  examId: ID!
-  objectiveAnswers: [Int!]
-  theoryAnswers: [String!]
   score: Int
   status: ResultStatus!
 }

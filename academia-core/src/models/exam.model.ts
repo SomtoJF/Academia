@@ -3,7 +3,7 @@ import {
 	ExamInterface,
 	ObjQuestionInterface,
 	TheoryQuestionInterface,
-} from "./types";
+} from "./types/exam.types";
 
 const ObjQuestionSchema = new mongoose.Schema<ObjQuestionInterface>({
 	// Ensure 'answer' is stored as a number

@@ -1,7 +1,7 @@
 export enum ResultStatus {
-	SUCCESS,
-	PENDING,
-	FAILED,
+	SUCCESS = "SUCCESS",
+	PENDING = "PENDING",
+	FAILED = "FAILED",
 }
 
 export type Result = {
