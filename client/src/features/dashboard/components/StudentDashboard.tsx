@@ -66,6 +66,9 @@ export default function StudentDashboard({ userId }: props) {
 	// two sections: Upcoming Exams and Past Exams
 	const { loading, refetch, data } = useQuery(GET_EXAMINER_DATA, {
 		variables: { id: userId },
+		onError(err) {
+			throw err;
+		},
 		onCompleted(data) {
 			console.log(data);
 			setConcludedExams(
