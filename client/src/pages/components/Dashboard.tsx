@@ -8,11 +8,11 @@ import CreateExamButton from "../../features/dashboard/components/CreateExamButt
 import { useParams } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import studyIllustration from "../../assets/study.svg";
+import useRoleStore from "../../zustand/role-store.zustand";
 
-const FETCH_USER_ROLE = gql`
+const FETCH_USER_NAMES = gql`
 	query fetchUserNames($id: ID!) {
 		user(id: $id) {
-			role
 			firstName
 			lastName
 		}
@@ -21,9 +21,10 @@ const FETCH_USER_ROLE = gql`
 
 export default function Dashboard() {
 	const { id } = useParams();
-	const { loading, data, refetch } = useQuery(FETCH_USER_ROLE, {
+	const { loading, data, refetch } = useQuery(FETCH_USER_NAMES, {
 		variables: { id: id },
 	});
+	const role = useRoleStore((state) => state.role);
 
 	return (
 		<div id="dashboard">
@@ -42,12 +43,12 @@ export default function Dashboard() {
 				</div>
 				<img src={studyIllustration} alt="study illustration" />
 			</header>
-			{data && data.user.role === "EXAMINER" ? <CreateExamButton /> : null}
+			{data && role === "EXAMINER" ? <CreateExamButton /> : null}
 			{loading ? (
 				<Spin />
-			) : data && data.user.role === "STUDENT" ? (
+			) : data && role === "STUDENT" ? (
 				<StudentDashboard userId={id!} />
-			) : data && data.user.role === "EXAMINER" ? (
+			) : data && role === "EXAMINER" ? (
 				<ExaminerDashboard userId={id!} />
 			) : (
 				<ErrorBoundary
