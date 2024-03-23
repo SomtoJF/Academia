@@ -3,7 +3,7 @@ import { ResultStatus } from "./types/result.types.js";
 const ResultModel = new mongoose.Schema({
     examId: { type: String, required: true },
     objectiveAnswers: { type: [Number], required: false },
-    candidateId: { type: String, required: true },
+    candidateId: { type: String, required: true, unique: true },
     theoryAnswers: { type: [String], required: false },
     totalQuestions: { type: Number, required: true },
     score: { type: Number, required: false },

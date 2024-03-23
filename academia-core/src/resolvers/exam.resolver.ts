@@ -86,7 +86,7 @@ export async function updateExam({ id, edits }: UpdateExamInterface) {
 			{ _id: id },
 			{ $push: { candidatesId: { $each: [edits.candidatesId] } } }
 		);
-		thisCandidate.examsTakenId = thisCandidate.examsSetId.concat(thisExam.id);
+
 		await thisCandidate.save();
 	}
 	const exam = await Exam.findById(id);

@@ -5,9 +5,6 @@ export interface UserInterface {
 	lastName: string;
 	profilePicture?: string;
 	role: Role;
-	// role: Role;
-	examsTakenId?: string[];
-	examsSetId?: string[];
 }
 
 enum Role {

@@ -21,10 +21,8 @@ type User {
   lastName: String!
   profilePicture: String
   role: Role!
-  examsTakenId: [ID!]
   examsTaken: [Exam!]
   examsRegisteredFor: [Exam!]
-  examsSetId: [ID!]
   examsSet: [Exam!]
   createdAt: Date!
   updatedAt: Date!

@@ -78,7 +78,6 @@ export async function updateExam({ id, edits }) {
         if (thisExam.candidatesId.includes(thisCandidate.id))
             throw new Error("This user is already registered for the exam");
         await Exam.updateOne({ _id: id }, { $push: { candidatesId: { $each: [edits.candidatesId] } } });
-        thisCandidate.examsTakenId = thisCandidate.examsSetId.concat(thisExam.id);
         await thisCandidate.save();
     }
     const exam = await Exam.findById(id);

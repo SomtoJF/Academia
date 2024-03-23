@@ -25,14 +25,6 @@ const UserModel = new mongoose.Schema({
         type: String,
         enum: ["EXAMINER", "STUDENT"],
     },
-    examsSetId: {
-        type: [String],
-        required: false,
-    },
-    examsTakenId: {
-        type: [String],
-        required: false,
-    },
 }, { timestamps: true });
 const User = mongoose.model("User", UserModel, "users");
 export default User;

@@ -28,14 +28,6 @@ const UserModel = new mongoose.Schema<UserInterface>(
 			type: String,
 			enum: ["EXAMINER", "STUDENT"],
 		},
-		examsSetId: {
-			type: [String],
-			required: false,
-		},
-		examsTakenId: {
-			type: [String],
-			required: false,
-		},
 	},
 	{ timestamps: true }
 );

@@ -22,7 +22,7 @@ export async function getExamsTaken(userId) {
         const parent = await User.findById(userId);
         if (parent.role !== "STUDENT")
             throw new Error("Only students can take exams. This entity is not a student");
-        return await Exam.find({ submittedIds: { $in: parent } });
+        return await Exam.find({ submittedIds: { $in: parent._id } });
     }
     catch (error) {
         throw error;

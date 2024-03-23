@@ -31,6 +31,10 @@ export async function createResult({ edits }: CreateResultInterface) {
 		candidateId: edits.candidateId,
 	});
 	const thisCandidate = await User.findById(edits.candidateId);
+
+	const totalQuestions =
+		thisExam.objectiveQuestions.length + thisExam.theoryQuestions.length;
+
 	if (!thisExam) throw new Error("No exam found");
 	if (thisCandidate.role !== "STUDENT")
 		throw new Error("Only students can take and submit exams");
@@ -38,8 +42,11 @@ export async function createResult({ edits }: CreateResultInterface) {
 
 	if (moment(thisExam.due).isBefore(moment()))
 		throw new Error("This Exam is already closed");
-	const totalQuestions =
-		thisExam.objectiveQuestions.length + thisExam.theoryQuestions.length;
+
+	await Exam.updateOne(
+		{ _id: edits.examId },
+		{ $push: { submittedIds: edits.candidateId } }
+	);
 	const newResult = new Result({
 		...edits,
 		status: ResultStatus.PENDING,

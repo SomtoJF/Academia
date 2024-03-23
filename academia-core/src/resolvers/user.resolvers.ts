@@ -1,4 +1,5 @@
 import Exam from "../models/exam.model.js";
+import Result from "../models/result.model.js";
 import { UserInterface } from "../models/types/user.types.js";
 import User from "../models/user.model.js";
 
@@ -26,7 +27,7 @@ export async function getExamsTaken(userId: string) {
 			throw new Error(
 				"Only students can take exams. This entity is not a student"
 			);
-		return await Exam.find({ submittedIds: { $in: parent } });
+		return await Exam.find({ submittedIds: { $in: parent._id } });
 	} catch (error) {
 		throw error;
 	}
