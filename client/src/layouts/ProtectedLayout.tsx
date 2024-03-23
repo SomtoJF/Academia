@@ -4,6 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Spin } from "antd";
 import NavSearchBar from "../components/nav-searchbar/NavSearchBar";
+import useRoleStore from "../zustand/role-store.zustand";
 
 const FETCH_USER_ROLE = gql`
 	query UserRole($id: ID!) {
@@ -15,8 +16,15 @@ const FETCH_USER_ROLE = gql`
 
 export default function ProtectedLayout() {
 	const { currentUser } = useAuth();
+	const setRole = useRoleStore((state) => state.setRole);
 	const { loading } = useQuery(FETCH_USER_ROLE, {
 		variables: { id: currentUser?.uid },
+		onError(error) {
+			throw error;
+		},
+		onCompleted(data) {
+			setRole(data.user.role);
+		},
 	});
 
 	return (
