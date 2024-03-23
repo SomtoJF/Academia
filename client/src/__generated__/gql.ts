@@ -25,6 +25,7 @@ const documents = {
     "\n\tmutation CreateExamMutation($edits: CreateExamArgs!) {\n\t\tcreateExam(edits: $edits) {\n\t\t\t_id\n\t\t\tinviteId\n\t\t}\n\t}\n": types.CreateExamMutationDocument,
     "\n\tquery fetchUserNames($id: ID!) {\n\t\tuser(id: $id) {\n\t\t\trole\n\t\t\tfirstName\n\t\t\tlastName\n\t\t}\n\t}\n": types.FetchUserNamesDocument,
     "\n\tquery fetchExam($examId: ID!) {\n\t\texam(id: $examId) {\n\t\t\tname\n\t\t\tdescription\n\t\t\tdue\n\t\t\tobjectiveQuestions {\n\t\t\t\tquestion\n\t\t\t\toptions\n\t\t\t}\n\t\t\ttheoryQuestions {\n\t\t\t\tquestion\n\t\t\t}\n\t\t\texaminer {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n": types.FetchExamDocument,
+    "\n\tmutation submitExam($edits: CreateResultArgs!){\n\t\tcreateResult(edits: $edits) {\n    \t\tcandidateId\n    \t\tstatus\n  \t\t}\n\t}\n": types.SubmitExamDocument,
     "\n\tmutation CreateUserMutation($edits: CreateUserArgs!) {\n\t\tcreateUser(edits: $edits) {\n\t\t\t_id\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\trole\n\t\t}\n\t}\n": types.CreateUserMutationDocument,
 };
 
@@ -90,6 +91,10 @@ export function gql(source: "\n\tquery fetchUserNames($id: ID!) {\n\t\tuser(id: 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery fetchExam($examId: ID!) {\n\t\texam(id: $examId) {\n\t\t\tname\n\t\t\tdescription\n\t\t\tdue\n\t\t\tobjectiveQuestions {\n\t\t\t\tquestion\n\t\t\t\toptions\n\t\t\t}\n\t\t\ttheoryQuestions {\n\t\t\t\tquestion\n\t\t\t}\n\t\t\texaminer {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery fetchExam($examId: ID!) {\n\t\texam(id: $examId) {\n\t\t\tname\n\t\t\tdescription\n\t\t\tdue\n\t\t\tobjectiveQuestions {\n\t\t\t\tquestion\n\t\t\t\toptions\n\t\t\t}\n\t\t\ttheoryQuestions {\n\t\t\t\tquestion\n\t\t\t}\n\t\t\texaminer {\n\t\t\t\tfirstName\n\t\t\t\tlastName\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tmutation submitExam($edits: CreateResultArgs!){\n\t\tcreateResult(edits: $edits) {\n    \t\tcandidateId\n    \t\tstatus\n  \t\t}\n\t}\n"): (typeof documents)["\n\tmutation submitExam($edits: CreateResultArgs!){\n\t\tcreateResult(edits: $edits) {\n    \t\tcandidateId\n    \t\tstatus\n  \t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

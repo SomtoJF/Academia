@@ -1,7 +1,7 @@
-import { useQuery } from "@apollo/client";
-import { Divider, Radio, RadioChangeEvent, Space, message } from "antd";
+import { useMutation, useQuery } from "@apollo/client";
+import { Divider, Radio, Space, message } from "antd";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import QuestionPicker from "../../features/exam/QuestionPicker";
 import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
 import ErrorBoundary from "../../components/error/ErrorBoundary.small";
@@ -32,18 +32,30 @@ const FETCH_EXAM = gql(`
 	}
 `);
 
+const SUBMIT_EXAM = gql(`
+	mutation submitExam($edits: CreateResultArgs!){
+		createResult(edits: $edits) {
+    		candidateId
+    		status
+  		}
+	}
+`);
+
 export default function Exam() {
-	const { examId } = useParams();
+	const { examId, id } = useParams();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [activeObjectiveQuestionIndex, setActiveObjectiveQuestionIndex] =
 		useState(0);
 	const [activeTheoryQuestion, setActiveTheoryQuestion] = useState(0);
 	const [studentObjectiveAnswers, setStudentObjectiveAnswers] = useState<
-		(number | undefined)[]
+		number[]
 	>([]);
 	const [studentTheoryAnswers, setStudentTheoryAnswers] = useState<string[]>(
 		[]
 	);
+	const [submitLoading, setSubmitLoading] = useState(false);
+	const [submitExam] = useMutation(SUBMIT_EXAM);
+	const navigate = useNavigate();
 
 	const { loading, data, error, refetch } = useQuery(FETCH_EXAM, {
 		variables: { examId: examId! },
@@ -84,18 +96,42 @@ export default function Exam() {
 
 	const handleExamSubmit = async () => {
 		try {
-			if (studentObjectiveAnswers.length < 1 || studentTheoryAnswers.length < 1)
-				throw new Error("You must answer all questions");
-			studentObjectiveAnswers.forEach((answer) => {
-				if (!answer) throw new Error("You must answer all questions");
-			});
-			studentTheoryAnswers.forEach((answer) => {
-				if (!answer) throw new Error("You must answer all questions");
+			if (!confirm("Are you sure you want to submit?")) return;
+			setSubmitLoading(true);
+
+			for (let i = 0; i < studentObjectiveAnswers.length; i++) {
+				if (isNaN(studentObjectiveAnswers[i]))
+					throw new Error(
+						`Objective question ${
+							i + 1
+						} hasn't been answered. Answer all questions`
+					);
+			}
+
+			for (let i = 0; i < studentTheoryAnswers.length; i++) {
+				if (!studentTheoryAnswers[i])
+					throw new Error("You must answer all theory questions");
+			}
+
+			await submitExam({
+				variables: {
+					edits: {
+						examId: examId!,
+						candidateId: id!,
+						objectiveAnswers: studentObjectiveAnswers,
+						theoryAnswers: studentTheoryAnswers,
+					},
+				},
 			});
 			success("submitted successfully");
+			setTimeout(() => {
+				navigate(`/user/${id}/dashboard`);
+			}, 1000);
 		} catch (err: any) {
 			errorMessage(err.message);
 			throw err;
+		} finally {
+			setSubmitLoading(false);
 		}
 	};
 
@@ -189,16 +225,9 @@ export default function Exam() {
 											<Radio
 												value={index}
 												key={uuidv4()}
-												onChange={(e: RadioChangeEvent) => {
-													console.log("radio checked", e.target.value);
-													const updatedAnswers = [
-														...studentObjectiveAnswers.slice(
-															0,
-															activeObjectiveQuestionIndex
-														),
-														index,
-														...studentObjectiveAnswers.slice(index + 1),
-													];
+												onChange={() => {
+													const updatedAnswers = [...studentObjectiveAnswers];
+													updatedAnswers[activeObjectiveQuestionIndex] = index;
 													setStudentObjectiveAnswers(updatedAnswers);
 												}}
 											>
@@ -257,6 +286,11 @@ export default function Exam() {
 								placeholder="Type in your answer here..."
 								cols={30}
 								rows={10}
+								onChange={(e) => {
+									const theoryAnswersClone = [...studentTheoryAnswers];
+									theoryAnswersClone[activeTheoryQuestion] = e.target.value;
+									setStudentTheoryAnswers(theoryAnswersClone);
+								}}
 							/>
 							<div className="control-buttons-container">
 								<button
@@ -288,8 +322,13 @@ export default function Exam() {
 							</div>
 						</section>
 					)}
-					<button type="button" id="submit-exam" onClick={handleExamSubmit}>
-						Submit Exam
+					<button
+						type="button"
+						id="submit-exam"
+						onClick={handleExamSubmit}
+						disabled={submitLoading}
+					>
+						{submitLoading ? <LoadingOutlined /> : "Submit Exam"}
 					</button>
 				</div>
 			</>
