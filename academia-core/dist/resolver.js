@@ -1,4 +1,4 @@
-import { createExam, deleteExam, examByInvite, getExam, getExamCandidates, getExamExaminer, updateExam, } from "./resolvers/exam.resolver.js";
+import { createExam, deleteExam, examByInvite, getExam, getExamCandidates, getExamExaminer, getExamResults, updateExam, } from "./resolvers/exam.resolver.js";
 import { createResult, getResult, getResultCandidate, getResultExam, getResults, updateResult, } from "./resolvers/result.resolver.js";
 import dateScalar from "./resolvers/scalars/date.scalar.js";
 import { createUser, deleteUser, getExamsRegisteredFor, getExamsSet, getExamsTaken, getUser, updateUser, } from "./resolvers/user.resolvers.js";
@@ -19,6 +19,7 @@ const resolvers = {
     Exam: {
         candidates: async (parent) => await getExamCandidates(parent.candidatesId),
         examiner: async (parent) => await getExamExaminer(parent.examinerId),
+        results: async (parent) => getExamResults(parent._id),
     },
     Result: {
         exam: async (parent) => getResultExam(parent),

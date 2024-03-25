@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import Exam from "../models/exam.model.js";
 import User from "../models/user.model.js";
+import Result from "../models/result.model.js";
 /**
  *
  * @param id Exam ID
@@ -87,4 +88,7 @@ export async function updateExam({ id, edits }) {
         exam.description = edits.description;
     await exam.save();
     return await Exam.findById(id);
+}
+export async function getExamResults(examId) {
+    return Result.find({ examId: examId });
 }

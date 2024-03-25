@@ -10,6 +10,7 @@ import {
 	getExam,
 	getExamCandidates,
 	getExamExaminer,
+	getExamResults,
 	updateExam,
 } from "./resolvers/exam.resolver.js";
 import {
@@ -69,6 +70,7 @@ const resolvers = {
 			await getExamCandidates(parent.candidatesId),
 		examiner: async (parent: ExamInterface) =>
 			await getExamExaminer(parent.examinerId),
+		results: async (parent: ExamInterface) => getExamResults(parent._id),
 	},
 	Result: {
 		exam: async (parent: Partial<Result>) => getResultExam(parent),

@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import Exam from "../models/exam.model.js";
 import User from "../models/user.model.js";
+import Result from "../models/result.model.js";
 
 /**
  *
@@ -94,6 +95,10 @@ export async function updateExam({ id, edits }: UpdateExamInterface) {
 	if (edits.description) exam.description = edits.description;
 	await exam.save();
 	return await Exam.findById(id);
+}
+
+export async function getExamResults(examId: string) {
+	return Result.find({ examId: examId });
 }
 
 export interface CreateExamInterface {

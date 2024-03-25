@@ -44,6 +44,7 @@ type Exam {
   objectiveQuestions: [ObjQuestion!]
   theoryQuestions: [TheoryQuestion!]
   due: Date!
+  results: [Result!]
   createdAt: Date!
   updatedAt: Date!
 }
