@@ -1,0 +1,26 @@
+@use "../../App"
+
+#exam-results-page
+    h1,h2
+        font-weight: 600
+    span.pending
+        background-color: lighten(App.$yellow, 20)
+        color: orange
+        border: solid 1px orange
+        border-radius: 5px
+        font-size: 0.8rem
+        padding: 5px
+    span.failed
+        background-color: lighten(pink, 10)
+        color: red
+        border: solid 1px red
+        border-radius: 5px
+        font-size: 0.8rem
+        padding: 5px
+    span.success
+        background-color: lighten(App.$lime, 30)
+        color: App.$green
+        border: solid 1px App.$green
+        border-radius: 5px
+        font-size: 0.8rem
+        padding: 5px
