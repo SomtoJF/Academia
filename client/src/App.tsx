@@ -15,6 +15,7 @@ import ErrorPage from "./pages/components/ErrorPage";
 import FAQs from "./pages/components/FAQs";
 import Exam from "./pages/components/Exam";
 import Result from "./pages/components/Result";
+import ExamResults from "./pages/components/ExamResults";
 
 const router = createBrowserRouter([
 	{
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
 				errorElement: <ErrorPage />,
 			},
 			{ path: "faqs", element: <FAQs /> },
+			{ path: "exam-results/:examId", element: <ExamResults /> },
 		],
 	},
 	{ path: "/signup", element: <Signup /> },
