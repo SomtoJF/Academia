@@ -68,7 +68,7 @@ export default function ExaminerResult() {
 			return {
 				key: index,
 				examName: exam.name,
-				due: moment(exam?.createdAt).format("DD MMM YYYY  hh:mma"),
+				due: moment(exam?.due).format("DD MMM YYYY  hh:mma"),
 				inviteId: exam.inviteId,
 				registrationCount: exam.candidatesId?.length,
 				action: exam._id,
