@@ -5,6 +5,7 @@ import { Table, TableColumnsType } from "antd";
 import moment from "moment";
 import { ResultStatus } from "../../__generated__/graphql";
 import { Key } from "react";
+import "../../pages/styles/ExamResults.styles.sass";
 
 interface DataSourceInterface {
 	key: Key;
@@ -111,7 +112,7 @@ export default function StudentResult() {
 		<div className="result-page">
 			<h1>My Results</h1>
 			<p>Here you can see the results for exams which you submitted.</p>
-			<Table dataSource={dataSource} columns={columns} />
+			{data && <Table dataSource={dataSource} columns={columns} />}
 		</div>
 	);
 }
