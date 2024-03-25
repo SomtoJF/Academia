@@ -5,6 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useAuth } from "../../contexts/AuthContext";
 import { LoadingOutlined } from "@ant-design/icons";
 import CustomAvatar from "../avatar/CustomAvatar";
+import NavDropdown from "./NavDropdown";
 
 const NAV_INFO_QUERY = gql`
 	query userQuery($id: ID!) {
@@ -39,11 +40,13 @@ export default function Navbar() {
 			{loading ? (
 				<LoadingOutlined />
 			) : currentUser ? (
-				<CustomAvatar
-					firstName={data.user.firstName}
-					lastName={data.user.lastName}
-					profilePicture={data.user.profilePicture}
-				/>
+				<NavDropdown>
+					<CustomAvatar
+						firstName={data.user.firstName}
+						lastName={data.user.lastName}
+						profilePicture={data.user.profilePicture}
+					/>
+				</NavDropdown>
 			) : (
 				<AuthButtons />
 			)}

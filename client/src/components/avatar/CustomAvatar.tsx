@@ -14,7 +14,7 @@ export default function CustomAvatar({
 	return (
 		<Avatar
 			src={profilePicture ? profilePicture : null}
-			style={{ backgroundColor: "#CB9BFA" }}
+			style={{ backgroundColor: "#CB9BFA", cursor: "default" }}
 			size={35}
 		>{`${firstName.charAt(0)}${lastName.charAt(0)}`}</Avatar>
 	);
