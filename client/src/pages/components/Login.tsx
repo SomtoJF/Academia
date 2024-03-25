@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { message } from "antd";
 import { useAuth } from "../../contexts/AuthContext";
+import AuthNav from "../../components/auth-nav/AuthNav";
 
 export default function Login() {
 	const [email, setEmail] = useState("");
@@ -57,6 +58,7 @@ export default function Login() {
 		<>
 			{contextHolder}
 			<div id="login">
+				<AuthNav />
 				<form action="" onSubmit={handleSubmit}>
 					<h1>Welcome back!</h1>
 					<p id="welcome-p">

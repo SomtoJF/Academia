@@ -11,6 +11,7 @@ import { Tooltip, message, RadioChangeEvent, Radio } from "antd";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMutation } from "@apollo/client";
 import { CREATE_USER_MUTATION } from "../../services/graphql";
+import AuthNav from "../../components/auth-nav/AuthNav";
 
 export default function Signup() {
 	const [email, setEmail] = useState("");
@@ -74,6 +75,7 @@ export default function Signup() {
 		<>
 			{contextHolder}
 			<div id="signup">
+				<AuthNav />
 				<form action="" onSubmit={handleSubmit}>
 					<h1>Create an account.</h1>
 					<p id="welcome-p">
